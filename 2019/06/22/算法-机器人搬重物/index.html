@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.1.2',
+    sidebar: {"position":"right","display":"post","offset":10,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="因为题目太长以后都默认放在后面了，可以通过右边的目录快速定位              思路 广搜 + 每一位的四个方向的判断 注意单元操作，这里的 一次转向 和 一个方向走 1 ~ 3 步 都花费 1  辅助数组   数组名 用途    trace[i][j] 用来记录遍历过的位置，其中每个位置的四个方向用 trace[i][j] 的二进制表示   dir_cost[c">
+<meta name="keywords" content="算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[算法] 机器人搬重物">
+<meta property="og:url" content="http://yoursite.com/2019/06/22/算法-机器人搬重物/index.html">
+<meta property="og:site_name" content="chenyiAlone Blog">
+<meta property="og:description" content="因为题目太长以后都默认放在后面了，可以通过右边的目录快速定位              思路 广搜 + 每一位的四个方向的判断 注意单元操作，这里的 一次转向 和 一个方向走 1 ~ 3 步 都花费 1  辅助数组   数组名 用途    trace[i][j] 用来记录遍历过的位置，其中每个位置的四个方向用 trace[i][j] 的二进制表示   dir_cost[c">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-22T08:27:11.794Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[算法] 机器人搬重物">
+<meta name="twitter:description" content="因为题目太长以后都默认放在后面了，可以通过右边的目录快速定位              思路 广搜 + 每一位的四个方向的判断 注意单元操作，这里的 一次转向 和 一个方向走 1 ~ 3 步 都花费 1  辅助数组   数组名 用途    trace[i][j] 用来记录遍历过的位置，其中每个位置的四个方向用 trace[i][j] 的二进制表示   dir_cost[c">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/2019/06/22/算法-机器人搬重物/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>[算法] 机器人搬重物 | chenyiAlone Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">chenyiAlone Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>日程表</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+  
+  
+
+  
+
+  <a href="https://github.com/chenyiAlone" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewbox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a>
+
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/22/算法-机器人搬重物/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chenyiAlone">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="chenyiAlone Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[算法] 机器人搬重物
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-22 16:17:44 / 修改时间：16:27:11" itemprop="dateCreated datePublished" datetime="2019-06-22T16:17:44+08:00">2019-06-22</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2019/06/22/算法-机器人搬重物/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/06/22/算法-机器人搬重物/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+            <span id="/2019/06/22/算法-机器人搬重物/" class="leancloud_visitors" data-flag-title="[算法] 机器人搬重物">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <div class="note primary">
+            <p>因为题目太长以后都默认放在后面了，可以通过右边的目录快速定位</p>
+          </div>
+
+
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><ol>
+<li>广搜 + 每一位的四个方向的判断</li>
+<li><strong>注意单元操作</strong>，这里的 <strong>一次转向</strong> 和 <strong>一个方向走 <code>1 ~ 3</code> 步</strong> 都花费 <code>1</code></li>
+</ol>
+<h2 id="辅助数组"><a href="#辅助数组" class="headerlink" title="辅助数组"></a>辅助数组</h2><table>
+<thead>
+<tr>
+<th align="center">数组名</th>
+<th align="center">用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>trace[i][j]</code></td>
+<td align="center">用来记录遍历过的位置，其中每个位置的四个方向用 <code>trace[i][j]</code> 的二进制表示</td>
+</tr>
+<tr>
+<td align="center"><code>dir_cost[cur_dir][dest_dir]</code></td>
+<td align="center">用来记录从当前方向转向下一个方向的花费</td>
+</tr>
+<tr>
+<td align="center"><code>next_dir[cur_dir][dest_dir]</code></td>
+<td align="center">从当前的方向转向的下一个方向，这里每次只转一次，维持广搜的特性（最短路径，对应这里的最少的操作）</td>
+</tr>
+</tbody></table>
+<a id="more"></a>
+
+
+<h2 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h2><table>
+<thead>
+<tr>
+<th align="center">mov</th>
+<th align="center">param</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">x, y</td>
+<td align="center">坐标</td>
+</tr>
+<tr>
+<td align="center">direct</td>
+<td align="center">方向</td>
+</tr>
+<tr>
+<td align="center">cost</td>
+<td align="center">步数</td>
+</tr>
+</tbody></table>
+<h2 id="定义方向"><a href="#定义方向" class="headerlink" title="定义方向"></a>定义方向</h2><table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">direction</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">0</td>
+<td align="center">up</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">down</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">left</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">right</td>
+</tr>
+</tbody></table>
+<h2 id="图的转化"><a href="#图的转化" class="headerlink" title="图的转化"></a>图的转化</h2><ol>
+<li><p>走的位置并不是看到的位置，而是给出矩阵的交点处</p>
+<ul>
+<li>初始化为 <code>f[n + 2][m + 2]</code>，多给出一行一列</li>
+<li>如果 <code>stin[i][j] == 1</code>，将 <code>f[i][j]  f[i][j + 1]  f[i + 1][j]  f[i + 1][j + 1]</code> 都置为 <code>1</code></li>
+</ul>
+</li>
+<li><p>注意最外圈界是不能走的，所以 <code>x, y</code> 的范围为 <code>1 &lt; x &amp;&amp; x &lt;= n</code> 和 <code>1 &lt; y &amp;&amp; y &lt;= m</code></p>
+<p> 转化完成的数组，只需要搜索里面的不为 <code>1</code> 的位置即可</p>
+</li>
+</ol>
+<h2 id="搜索"><a href="#搜索" class="headerlink" title="搜索"></a>搜索</h2><ol>
+<li>将开始位置 <code>start_x + 1, start_y + 1</code> 以及 <strong>对应的方向</strong> 创建为一个结构体压入队列中</li>
+<li>遍历四个方向<ul>
+<li>方向相同<ul>
+<li>尝试走 <code>1 ~ 3</code> 步，如果中途碰到为 <code>f[nx][ny] == 1</code> 的位置，就跳出步进尝试的循环</li>
+</ul>
+</li>
+<li>方向不同<ul>
+<li>判断 <strong>当前方向</strong> 向 <strong>目标方向</strong> 转化的时候的 <strong>下一个方向</strong> 是否已经遍历过<ul>
+<li><code>int bit = 1 &lt;&lt; next_dir[cur_dir][dest_dir];  if ((trace[x][y] &amp; bit) == 0)</code></li>
+<li>没有遍历过就将 <code>x, y</code> 的这个方向压入队列中</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>trace[x][y] |= bit;</code> 将这位置的该方向标记为已遍历</li>
+</ul>
+</li>
+<li>第一次到达目标位置 <code>end_x, end_y</code> 的时候，就打印结果结束程序</li>
+</ol>
+<h1 id="Coding"><a href="#Coding" class="headerlink" title="Coding"></a>Coding</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">0: up</span></span><br><span class="line"><span class="comment">1: down</span></span><br><span class="line"><span class="comment">2: left</span></span><br><span class="line"><span class="comment">3: right</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">int</span> f[<span class="number">60</span>][<span class="number">60</span>], trace[<span class="number">60</span>][<span class="number">60</span>];</span><br><span class="line"><span class="comment">// next dir</span></span><br><span class="line"><span class="keyword">int</span> next_dir[<span class="number">4</span>][<span class="number">4</span>] = &#123;  &#123;<span class="number">0</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">3</span>&#125;,</span><br><span class="line">                        &#123;<span class="number">2</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;,</span><br><span class="line">                        &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">0</span>&#125;,</span><br><span class="line">                        &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">3</span>&#125;    &#125;;</span><br><span class="line"><span class="keyword">int</span> dir_cost[<span class="number">4</span>][<span class="number">4</span>] = &#123;  &#123;<span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">1</span>&#125;, </span><br><span class="line">                        &#123;<span class="number">2</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>&#125;,</span><br><span class="line">                        &#123;<span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">2</span>&#125;, </span><br><span class="line">                        &#123;<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">0</span>&#125;  &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> dx[] = &#123;<span class="number">-1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>&#125;;</span><br><span class="line"><span class="keyword">int</span> dy[] = &#123;<span class="number">0</span>, <span class="number">0</span>, <span class="number">-1</span>, <span class="number">1</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> x;</span><br><span class="line">    <span class="keyword">int</span> y;</span><br><span class="line">    <span class="keyword">int</span> cost;</span><br><span class="line">    <span class="keyword">int</span> direct;</span><br><span class="line">&#125; mov;</span><br><span class="line"><span class="built_in">queue</span>&lt; mov &gt; que;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">get_dir</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (x == <span class="number">-1</span> &amp;&amp; y == <span class="number">0</span>)  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (x == <span class="number">1</span> &amp;&amp; y == <span class="number">0</span>)   <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span> (x == <span class="number">0</span> &amp;&amp; y == <span class="number">-1</span>)  <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">if</span> (x == <span class="number">0</span> &amp;&amp; y == <span class="number">1</span>)   <span class="keyword">return</span> <span class="number">3</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n, m, tmp;</span><br><span class="line">    <span class="built_in">cin</span> &gt;&gt; n &gt;&gt; m;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++) </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= m; j++) &#123;</span><br><span class="line">            <span class="built_in">cin</span> &gt;&gt; tmp;</span><br><span class="line">            <span class="keyword">if</span> (tmp == <span class="number">1</span>) &#123;</span><br><span class="line">                f[i][j] = <span class="number">1</span>;</span><br><span class="line">                f[i][j + <span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">                f[i + <span class="number">1</span>][j] = <span class="number">1</span>;</span><br><span class="line">                f[i + <span class="number">1</span>][j + <span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">int</span> b_x, b_y, e_x, e_y;</span><br><span class="line">    <span class="built_in">cin</span> &gt;&gt; b_x &gt;&gt; b_y &gt;&gt; e_x &gt;&gt; e_y;</span><br><span class="line">    <span class="keyword">char</span> c;</span><br><span class="line">    <span class="built_in">cin</span> &gt;&gt; c;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> init_dir = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (c == <span class="string">'N'</span>) init_dir = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (c == <span class="string">'S'</span>) init_dir = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span> (c == <span class="string">'W'</span>) init_dir = <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">if</span> (c == <span class="string">'E'</span>) init_dir = <span class="number">3</span>;</span><br><span class="line"></span><br><span class="line">    que.push(mov &#123;b_x + <span class="number">1</span>, b_y + <span class="number">1</span>, <span class="number">0</span>, init_dir&#125;);</span><br><span class="line">    <span class="keyword">for</span> ( ; !que.empty(); que.pop()) &#123;</span><br><span class="line">        mov mo = que.front();</span><br><span class="line">        <span class="keyword">int</span> x = mo.x, y = mo.y;</span><br><span class="line">        <span class="keyword">if</span> (x == e_x + <span class="number">1</span> &amp;&amp; y == e_y + <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="built_in">cout</span> &lt;&lt; mo.cost;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++) &#123;   <span class="comment">// 枚举四个方向</span></span><br><span class="line">            <span class="keyword">int</span> dest_dir = get_dir(dx[i], dy[i]);</span><br><span class="line">            <span class="keyword">int</span> bit = <span class="number">1</span> &lt;&lt; next_dir[mo.direct][dest_dir];    <span class="comment">// 下一个方向</span></span><br><span class="line">            <span class="keyword">if</span> (dest_dir == mo.direct) &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= <span class="number">3</span>; j++) &#123;</span><br><span class="line">                    <span class="keyword">int</span> nx = x + j * dx[i], ny = y + j * dy[i];</span><br><span class="line">                    <span class="keyword">if</span> (<span class="number">1</span> &lt; nx &amp;&amp; nx &lt;= n &amp;&amp; <span class="number">1</span> &lt; ny &amp;&amp; ny &lt;= m &amp;&amp; (trace[nx][ny] &amp; bit) == <span class="number">0</span>) &#123;</span><br><span class="line">                        <span class="keyword">if</span> (f[nx][ny] == <span class="number">1</span>) <span class="keyword">break</span>;</span><br><span class="line">                        que.push(mov &#123;nx, ny, mo.cost + <span class="number">1</span>, dest_dir&#125;);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> ((trace[x][y] &amp; bit) == <span class="number">0</span>) &#123;</span><br><span class="line">                    que.push(mov &#123;x, y, mo.cost + <span class="number">1</span>, next_dir[mo.direct][dest_dir]&#125;);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            trace[x][y] |= bit;  <span class="comment">// 标记该方向</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"-1"</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h1><p>机器人移动学会（RMI）现在正尝试用机器人搬运物品。机器人的形状是一个直径$1.6米的球。在试验阶段，机器人被用于在一个储藏室中搬运货物。储藏室是一个<code>N × M</code> 的网格，有些格子为不可移动的障碍。机器人的中心总是在格点上，当然，机器人必须在最短的时间内把物品搬运到指定的地方。机器人接受的指令有：向前移动11步（Creep）；向前移动2步（Walk）；向前移动33步（Run）；向左转（Left）；向右转（Right）。每个指令所需要的时间为11秒。请你计算一下机器人完成任务所需的最少时间。</p>
+<h2 id="输入输出格式"><a href="#输入输出格式" class="headerlink" title="输入输出格式"></a>输入输出格式</h2><p>输入格式：<br>第一行为两个正整数 <strong><code>N,M(N,M &lt;= 50)</code></strong>，下面NN行是储藏室的构造，<code>0</code> 表示无障碍，<code>1</code> 表示有障碍，数字之间用一个空格隔开。接着一行有 <code>4</code> 个整数和 <code>1</code> 个大写字母，分别为起始点和目标点左上角网格的行与列，起始时的面对方向（东E，南S，西W，北N），数与数，数与字母之间均用一个空格隔开。终点的面向方向是任意的。</p>
+<h2 id="输出格式："><a href="#输出格式：" class="headerlink" title="输出格式："></a>输出格式：</h2><p>一个整数，表示机器人完成任务所需的最少时间。如果无法到达，输出 <code>-1</code>。</p>
+<h2 id="输入输出样例"><a href="#输入输出样例" class="headerlink" title="输入输出样例"></a>输入输出样例</h2><h3 id="输入样例-1："><a href="#输入样例-1：" class="headerlink" title="输入样例#1："></a>输入样例#1：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">9 10</span><br><span class="line">0 0 0 0 0 0 1 0 0 0</span><br><span class="line">0 0 0 0 0 0 0 0 1 0</span><br><span class="line">0 0 0 1 0 0 0 0 0 0</span><br><span class="line">0 0 1 0 0 0 0 0 0 0</span><br><span class="line">0 0 0 0 0 0 1 0 0 0</span><br><span class="line">0 0 0 0 0 1 0 0 0 0</span><br><span class="line">0 0 0 1 1 0 0 0 0 0</span><br><span class="line">0 0 0 0 0 0 0 0 0 0</span><br><span class="line">1 0 0 0 0 0 0 0 1 0</span><br><span class="line">7 2 2 7 S</span><br></pre></td></tr></table></figure>
+
+<h3 id="输出样例-1："><a href="#输出样例-1：" class="headerlink" title="输出样例#1："></a>输出样例#1：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">12</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/算法/" rel="tag"><i class="fa fa-tag"></i> 算法</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/18/算法-八皇后/" rel="next" title="[算法] 八皇后">
+                <i class="fa fa-chevron-left"></i> [算法] 八皇后
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="chenyiAlone">
+            
+              <p class="site-author-name" itemprop="name">chenyiAlone</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/chenyiAlone" title="GitHub &rarr; https://github.com/chenyiAlone" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:chenyialone@outlook.com" title="E-Mail &rarr; mailto:chenyialone@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#思路"><span class="nav-number">1.</span> <span class="nav-text">思路</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#辅助数组"><span class="nav-number">1.1.</span> <span class="nav-text">辅助数组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结构体"><span class="nav-number">1.2.</span> <span class="nav-text">结构体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定义方向"><span class="nav-number">1.3.</span> <span class="nav-text">定义方向</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图的转化"><span class="nav-number">1.4.</span> <span class="nav-text">图的转化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#搜索"><span class="nav-number">1.5.</span> <span class="nav-text">搜索</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Coding"><span class="nav-number">2.</span> <span class="nav-text">Coding</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#题目描述"><span class="nav-number">3.</span> <span class="nav-text">题目描述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#输入输出格式"><span class="nav-number">3.1.</span> <span class="nav-text">输入输出格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输出格式："><span class="nav-number">3.2.</span> <span class="nav-text">输出格式：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输入输出样例"><span class="nav-number">3.3.</span> <span class="nav-text">输入输出样例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#输入样例-1："><span class="nav-number">3.3.1.</span> <span class="nav-text">输入样例#1：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输出样例-1："><span class="nav-number">3.3.2.</span> <span class="nav-text">输出样例#1：</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chenyiAlone</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.1.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: true,
+    appId: 'AmFpJgykLEalR7pMAcA9o62Y-gzGzoHsz',
+    appKey: '5ldLOrpqvEFtUjmq2vOGUEVg',
+    placeholder: '...',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: true,
+    lang: '' || 'zh-cn'
+  });
+</script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
