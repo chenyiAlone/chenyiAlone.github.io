@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.2" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.1.2',
+    sidebar: {"position":"right","display":"post","offset":10,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="概要这一章的复习主要涵盖 java 所有的 基本数据类型 和 包装类型 的源码分析，以及这两者之间转化所用的 自动装箱机制 实现原理。">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[java复习] 数据类型">
+<meta property="og:url" content="http://yoursite.com/2019/07/02/java复习-数据类型/index.html">
+<meta property="og:site_name" content="chenyiAlone Blog">
+<meta property="og:description" content="概要这一章的复习主要涵盖 java 所有的 基本数据类型 和 包装类型 的源码分析，以及这两者之间转化所用的 自动装箱机制 实现原理。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-07-02T12:40:43.973Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[java复习] 数据类型">
+<meta name="twitter:description" content="概要这一章的复习主要涵盖 java 所有的 基本数据类型 和 包装类型 的源码分析，以及这两者之间转化所用的 自动装箱机制 实现原理。">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/2019/07/02/java复习-数据类型/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>[java复习] 数据类型 | chenyiAlone Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">chenyiAlone Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/schedule/" rel="section"><i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>日程表</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+  
+  
+
+  
+
+  <a href="https://github.com/chenyiAlone" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewbox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a>
+
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/02/java复习-数据类型/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chenyiAlone">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="chenyiAlone Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[java复习] 数据类型
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-07-02 14:49:08 / 修改时间：20:40:43" itemprop="dateCreated datePublished" datetime="2019-07-02T14:49:08+08:00">2019-07-02</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2019/07/02/java复习-数据类型/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/07/02/java复习-数据类型/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+            <span id="/2019/07/02/java复习-数据类型/" class="leancloud_visitors" data-flag-title="[java复习] 数据类型">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h1><p>这一章的复习主要涵盖 <code>java</code> 所有的 <strong>基本数据类型</strong> 和 <strong>包装类型</strong> 的源码分析，以及这两者之间转化所用的 <strong>自动装箱机制</strong> 实现原理。</p>
+<a id="more"></a>
+
+<h1 id="常见数据类型"><a href="#常见数据类型" class="headerlink" title="常见数据类型"></a>常见数据类型</h1><table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>字节数</th>
+<th>大小/位</th>
+<th>包装类型</th>
+<th>默认值</th>
+<th>可表示数据范围</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>byte</td>
+<td>1</td>
+<td>8</td>
+<td>Byte</td>
+<td>(byte)0</td>
+<td>-128 ~ 127</td>
+</tr>
+<tr>
+<td>boolean</td>
+<td>1</td>
+<td>8</td>
+<td>Boolean</td>
+<td>false</td>
+<td>true ~ false</td>
+</tr>
+<tr>
+<td>short</td>
+<td>2</td>
+<td>16</td>
+<td>Short</td>
+<td>(short)0</td>
+<td>-32768 ~ 32767</td>
+</tr>
+<tr>
+<td>char</td>
+<td>2</td>
+<td>16</td>
+<td>Character</td>
+<td>‘\u0000’(null)</td>
+<td>0 ~ 65535</td>
+</tr>
+<tr>
+<td>int</td>
+<td>4</td>
+<td>32</td>
+<td>Integer</td>
+<td>0</td>
+<td>-2147483648 ~ 2147483647</td>
+</tr>
+<tr>
+<td>float</td>
+<td>4</td>
+<td>32</td>
+<td>Float</td>
+<td>0.0</td>
+<td>1.4E-45 ~ 3.4028235E38</td>
+</tr>
+<tr>
+<td>long</td>
+<td>8</td>
+<td>64</td>
+<td>Long</td>
+<td>0L</td>
+<td>-9223372036854775808 ~ 9223372036854775807</td>
+</tr>
+<tr>
+<td>double</td>
+<td>8</td>
+<td>64</td>
+<td>Double</td>
+<td>0.0</td>
+<td>4.9E-324 ~ 1.7976931348623157E308</td>
+</tr>
+</tbody></table>
+<h1 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h1><h2 id="默认类型"><a href="#默认类型" class="headerlink" title="默认类型"></a>默认类型</h2><ul>
+<li>整数，默认为 <strong><code>int</code></strong></li>
+<li>非整数，默认为 <strong><code>double</code></strong></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">123</span> =&gt; <span class="keyword">int</span></span><br><span class="line"><span class="number">1.1</span> =&gt; <span class="keyword">double</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<ul>
+<li>直接初始化为 <code>float</code> 时，需要指定为 <code>f / F</code> 作为后缀</li>
+<li>直接初始化 <code>long</code> 且范围超过了 <code>int</code>，需要使用 <code>l \ L</code> 作为后缀</li>
+</ul>
+<h2 id="进制"><a href="#进制" class="headerlink" title="进制"></a>进制</h2><table>
+<thead>
+<tr>
+<th>格式</th>
+<th>进制</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>100</td>
+<td>十进制(默认)</td>
+</tr>
+<tr>
+<td>0144</td>
+<td>八进制</td>
+</tr>
+<tr>
+<td>0x64</td>
+<td>十六进制</td>
+</tr>
+</tbody></table>
+<h2 id="精度"><a href="#精度" class="headerlink" title="精度"></a>精度</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">低  ------------------------------------&gt;  高</span><br><span class="line"></span><br><span class="line"><span class="keyword">byte</span>, <span class="keyword">short</span>, <span class="keyword">char</span>—&gt; <span class="keyword">int</span> —&gt; <span class="keyword">long</span>—&gt; <span class="keyword">float</span> —&gt; <span class="keyword">double</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>为什么java中存在基本类型</strong></p>
+<p>与 <code>c++</code> 相似，<code>java</code> 中创建基本类型不需要调用 <strong><code>new</code></strong> 关键字，而是使用一个 <strong>并非引用的自动变量</strong>，直接保存在 <strong>栈</strong> 中，效率更高</p>
+<p><code>java</code> 是一门 <strong>面向对象</strong> 的语言，而像 <code>int</code> 之类的基本类型不能作为对象，为此就为这些基本类型都创建了 <strong>对应的包装类型</strong></p>
+<h1 id="包装类型"><a href="#包装类型" class="headerlink" title="包装类型"></a>包装类型</h1><p>所有的包装类型都 <strong><code>extends</code></strong> 自 <strong><code>java.lang.Number</code></strong> ，这些包装类型中，都是用了 <strong><code>private final xxx</code></strong> 来保存对应的基本数据类型的值，保证无法进行修改。</p>
+<h2 id="Integer"><a href="#Integer" class="headerlink" title="Integer"></a>Integer</h2><p><del><code>new Integer(int i)</code></del> 方法从 <strong><code>jdk 9</code></strong> 就被废弃了，推荐使用 <code>Integer.valueOf(int x)</code> 来新建对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Integer a = <span class="number">123</span>;</span><br><span class="line">Integer b = <span class="number">123</span>;</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"a == b: "</span> + a == b);</span><br><span class="line"></span><br><span class="line"><span class="comment">//~  a == b: true</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="缓冲池"><a href="#缓冲池" class="headerlink" title="缓冲池"></a>缓冲池</h2><table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Range</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Boolean</td>
+<td>true ~ false</td>
+</tr>
+<tr>
+<td>Byte</td>
+<td>0 ~ 1</td>
+</tr>
+<tr>
+<td>Short</td>
+<td>-128 ~ 127</td>
+</tr>
+<tr>
+<td>Integer</td>
+<td>-128 ~ 127</td>
+</tr>
+<tr>
+<td>Character</td>
+<td>\u0000 ~ \u007F</td>
+</tr>
+</tbody></table>
+<p>给定区间中会有无数个 <code>float</code> 和 <code>double</code>，所以这两种类型的包装类型不设置缓存池</p>
+<p><strong>缓存池对比较的影响</strong>：</p>
+<p>后面的装箱有提到 <code>IntegerCache</code> 缓存池，实现了 <strong>享元模式</strong>，因此使用 <code>valueOf(int i )</code> 来创建对象的时候，相同的值得到的是同一个对象的引用，<br>所以 <code>a == b</code> 的值为 <code>true</code>。</p>
+<h2 id="高精度"><a href="#高精度" class="headerlink" title="高精度"></a>高精度</h2><p>除了上面所罗列的包装类型之外，<code>java</code> 中还有这高精度数字:</p>
+<ol>
+<li><code>BigInteger</code>: 高精度整数</li>
+<li><code>BigDecimal</code>: 高精度小数</li>
+</ol>
+<p>高精度的运算和比较大小<strong>使用其内部定义的函数</strong>，<strong>不能直接使用运算符!</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">BigDecimal a = <span class="keyword">new</span> BigDecimal(<span class="string">"2.00"</span>);</span><br><span class="line">BigDecimal b = <span class="keyword">new</span> BigDecimal(<span class="string">"2.0"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//! print(a.equals(b)); // false</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> result = a.compareTo(b);</span><br></pre></td></tr></table></figure>
+
+<h1 id="自动装箱机制"><a href="#自动装箱机制" class="headerlink" title="自动装箱机制"></a>自动装箱机制</h1><h2 id="自动装箱知识点"><a href="#自动装箱知识点" class="headerlink" title="自动装箱知识点"></a>自动装箱知识点</h2><ol>
+<li>自动装箱可以自动完成 <strong>基本数据类型</strong> 和 <strong>包装类型</strong> 之间转换</li>
+<li>自动装箱机制 <strong>不能用于数组</strong></li>
+</ol>
+<h2 id="装箱实现"><a href="#装箱实现" class="headerlink" title="装箱实现"></a>装箱实现</h2><p>这里以 <code>Integer</code> 为例，探究 <code>Integer</code> 的自动装箱机制。</p>
+<hr>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Integer integer = <span class="number">1</span>;    <span class="comment">// call int intValue()</span></span><br><span class="line"><span class="keyword">int</span> i = integer;        <span class="comment">// call Integer valueOf(int i)</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>两个核心方法</strong>：</p>
+<ol>
+<li><strong>装箱 <code>int -&gt; Integer</code></strong> : <code>Integer valueOf(int i)</code> </li>
+<li><strong>拆箱 <code>Integer -&gt; int</code></strong> : <code>int intValue()</code></li>
+</ol>
+<ul>
+<li>在使用将 <code>int</code> 基本类型的值赋值给 <code>Integer</code> 包装类型的过程中，会调用 <code>Integer</code> 源码中中的 <code>int intValue()</code> 方法，进行类型转化</li>
+<li>同理从 <code>Integer</code> 到 <code>int</code> 就是调用 <code>Integer valueOf(int i)</code> 的逆向类型转化</li>
+</ul>
+<p><code>Integer</code> 中使用了 <strong>享元模式</strong>，对于 <code>-128 ~ 127</code> 之间的值已经在累加器加载 <code>Integer</code> 类的时候，将这区间的数值初始化到了 <code>Integer[] cache</code> 缓存池中，如果 <code>IntegerCache.low &lt;= x &amp;&amp; x &lt;= IntegerCache.high</code> 介于这个区间之中，调用这区间的 <code>Integer.vauleOf(x)</code> 并不会 <code>new</code> 新的 <code>Integer</code> 对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// java 12 source</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Integer</span> <span class="keyword">extends</span> <span class="title">Number</span></span></span><br><span class="line"><span class="class">        <span class="keyword">implements</span> <span class="title">Comparable</span>&lt;<span class="title">Integer</span>&gt;, <span class="title">Constable</span>, <span class="title">ConstantDesc</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> value;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@HotSpotIntrinsicCandidate</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">intValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> value;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@HotSpotIntrinsicCandidate</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Integer <span class="title">valueOf</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (i &gt;= IntegerCache.low &amp;&amp; i &lt;= IntegerCache.high)</span><br><span class="line">            <span class="keyword">return</span> IntegerCache.cache[i + (-IntegerCache.low)];</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Integer(i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"><i class="fa fa-tag"></i> java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/22/算法-机器人搬重物/" rel="next" title="[算法] 机器人搬重物">
+                <i class="fa fa-chevron-left"></i> [算法] 机器人搬重物
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="chenyiAlone">
+            
+              <p class="site-author-name" itemprop="name">chenyiAlone</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/chenyiAlone" title="GitHub &rarr; https://github.com/chenyiAlone" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:chenyialone@outlook.com" title="E-Mail &rarr; mailto:chenyialone@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概要"><span class="nav-number">1.</span> <span class="nav-text">概要</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常见数据类型"><span class="nav-number">2.</span> <span class="nav-text">常见数据类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基本类型"><span class="nav-number">3.</span> <span class="nav-text">基本类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#默认类型"><span class="nav-number">3.1.</span> <span class="nav-text">默认类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进制"><span class="nav-number">3.2.</span> <span class="nav-text">进制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#精度"><span class="nav-number">3.3.</span> <span class="nav-text">精度</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#包装类型"><span class="nav-number">4.</span> <span class="nav-text">包装类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Integer"><span class="nav-number">4.1.</span> <span class="nav-text">Integer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓冲池"><span class="nav-number">4.2.</span> <span class="nav-text">缓冲池</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#高精度"><span class="nav-number">4.3.</span> <span class="nav-text">高精度</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#自动装箱机制"><span class="nav-number">5.</span> <span class="nav-text">自动装箱机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#自动装箱知识点"><span class="nav-number">5.1.</span> <span class="nav-text">自动装箱知识点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#装箱实现"><span class="nav-number">5.2.</span> <span class="nav-text">装箱实现</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chenyiAlone</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.1.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: true,
+    appId: 'AmFpJgykLEalR7pMAcA9o62Y-gzGzoHsz',
+    appKey: '5ldLOrpqvEFtUjmq2vOGUEVg',
+    placeholder: '留下邮箱可以收到回复提醒呦！(￣▽￣)~*',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: true,
+    lang: '' || 'zh-cn'
+  });
+</script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
