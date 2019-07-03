@@ -96,18 +96,18 @@
 
 
 
-  <meta name="description" content="概要这一章的复习主要涵盖 java 所有的 基本数据类型 和 包装类型 的源码分析，以及这两者之间转化所用的 自动装箱机制 实现原理。">
+  <meta name="description" content="概要             这一章的复习主要涵盖 java 所有的 基本数据类型 和 包装类型 的源码分析，以及这两者之间转化所用的 自动装箱机制 实现原理。这里整理的都是个人觉得比较重要重新认真分析的东西，不一定全部为基础，如果有不准确的地方，还望大佬从评论区指出，感激不尽。">
 <meta name="keywords" content="java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="[java复习] 数据类型">
 <meta property="og:url" content="http://yoursite.com/2019/07/02/java复习-数据类型/index.html">
 <meta property="og:site_name" content="chenyiAlone Blog">
-<meta property="og:description" content="概要这一章的复习主要涵盖 java 所有的 基本数据类型 和 包装类型 的源码分析，以及这两者之间转化所用的 自动装箱机制 实现原理。">
+<meta property="og:description" content="概要             这一章的复习主要涵盖 java 所有的 基本数据类型 和 包装类型 的源码分析，以及这两者之间转化所用的 自动装箱机制 实现原理。这里整理的都是个人觉得比较重要重新认真分析的东西，不一定全部为基础，如果有不准确的地方，还望大佬从评论区指出，感激不尽。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-07-02T12:40:43.973Z">
+<meta property="og:updated_time" content="2019-07-03T12:57:42.287Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[java复习] 数据类型">
-<meta name="twitter:description" content="概要这一章的复习主要涵盖 java 所有的 基本数据类型 和 包装类型 的源码分析，以及这两者之间转化所用的 自动装箱机制 实现原理。">
+<meta name="twitter:description" content="概要             这一章的复习主要涵盖 java 所有的 基本数据类型 和 包装类型 的源码分析，以及这两者之间转化所用的 自动装箱机制 实现原理。这里整理的都是个人觉得比较重要重新认真分析的东西，不一定全部为基础，如果有不准确的地方，还望大佬从评论区指出，感激不尽。">
 
 
 
@@ -408,12 +408,24 @@
                 
               
 
-              <time title="创建时间：2019-07-02 14:49:08 / 修改时间：20:40:43" itemprop="dateCreated datePublished" datetime="2019-07-02T14:49:08+08:00">2019-07-02</time>
+              <time title="创建时间：2019-07-02 14:49:08" itemprop="dateCreated datePublished" datetime="2019-07-02T14:49:08+08:00">2019-07-02</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-07-03 20:57:42" itemprop="dateModified" datetime="2019-07-03T20:57:42+08:00">2019-07-03</time>
               
             
           </span>
@@ -489,7 +501,10 @@
       
 
       
-        <h1 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h1><p>这一章的复习主要涵盖 <code>java</code> 所有的 <strong>基本数据类型</strong> 和 <strong>包装类型</strong> 的源码分析，以及这两者之间转化所用的 <strong>自动装箱机制</strong> 实现原理。</p>
+        <h1 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h1><div class="note primary">
+            <p>这一章的复习主要涵盖 <code>java</code> 所有的 <strong>基本数据类型</strong> 和 <strong>包装类型</strong> 的源码分析，以及这两者之间转化所用的 <strong>自动装箱机制</strong> 实现原理。<br>这里整理的都是个人觉得比较重要重新认真分析的东西，不一定全部为基础，如果有不准确的地方，还望大佬从评论区指出，感激不尽。</p>
+          </div>
+
 <a id="more"></a>
 
 <h1 id="常见数据类型"><a href="#常见数据类型" class="headerlink" title="常见数据类型"></a>常见数据类型</h1><table>
@@ -568,7 +583,13 @@
 <td>4.9E-324 ~ 1.7976931348623157E308</td>
 </tr>
 </tbody></table>
-<h1 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h1><h2 id="默认类型"><a href="#默认类型" class="headerlink" title="默认类型"></a>默认类型</h2><ul>
+<ul>
+<li>需要注意的一点就是 <code>java</code> 是没有无符号类型的。</li>
+</ul>
+<h1 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h1><p><strong>为什么java中存在基本类型</strong></p>
+<p>与 <code>c++</code> 相似，<code>java</code> 中创建基本类型不需要调用 <strong><code>new</code></strong> 关键字，而是使用一个 <strong>并非引用的自动变量</strong>，直接保存在 <strong>栈</strong> 中，效率更高</p>
+<p><code>java</code> 是一门 <strong>面向对象</strong> 的语言，而像 <code>int</code> 之类的基本类型不能作为对象，为此就为这些基本类型都创建了 <strong>对应的包装类型</strong></p>
+<h2 id="默认类型"><a href="#默认类型" class="headerlink" title="默认类型"></a>默认类型</h2><ul>
 <li>整数，默认为 <strong><code>int</code></strong></li>
 <li>非整数，默认为 <strong><code>double</code></strong></li>
 </ul>
@@ -587,6 +608,10 @@
 </tr>
 </thead>
 <tbody><tr>
+<td>0b10</td>
+<td>二进制</td>
+</tr>
+<tr>
 <td>100</td>
 <td>十进制(默认)</td>
 </tr>
@@ -601,9 +626,31 @@
 </tbody></table>
 <h2 id="精度"><a href="#精度" class="headerlink" title="精度"></a>精度</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">低  ------------------------------------&gt;  高</span><br><span class="line"></span><br><span class="line"><span class="keyword">byte</span>, <span class="keyword">short</span>, <span class="keyword">char</span>—&gt; <span class="keyword">int</span> —&gt; <span class="keyword">long</span>—&gt; <span class="keyword">float</span> —&gt; <span class="keyword">double</span></span><br></pre></td></tr></table></figure>
 
-<p><strong>为什么java中存在基本类型</strong></p>
-<p>与 <code>c++</code> 相似，<code>java</code> 中创建基本类型不需要调用 <strong><code>new</code></strong> 关键字，而是使用一个 <strong>并非引用的自动变量</strong>，直接保存在 <strong>栈</strong> 中，效率更高</p>
-<p><code>java</code> 是一门 <strong>面向对象</strong> 的语言，而像 <code>int</code> 之类的基本类型不能作为对象，为此就为这些基本类型都创建了 <strong>对应的包装类型</strong></p>
+<h2 id="类型转化"><a href="#类型转化" class="headerlink" title="类型转化"></a>类型转化</h2><h3 id="隐式类型转化"><a href="#隐式类型转化" class="headerlink" title="隐式类型转化"></a>隐式类型转化</h3><p>自动类型转换的实现需要同时满足两个条件：</p>
+<ol>
+<li>两种数据类型彼此兼容</li>
+<li>目标类型的取值范围大于源数据类型 (低级类型数据转换成高级类型数据)</li>
+</ol>
+<p>如 <code>byte</code> 类型向 <code>short</code> 类型转换时，由于 <code>short</code> 类型的取值范围较大，会自动将 <code>byte</code> 转换为 <code>short</code> 类型</p>
+<p><strong>数值型数据的转换</strong>:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">byte</span>-&gt; <span class="keyword">short</span>-&gt; <span class="keyword">int</span>-&gt; <span class="keyword">long</span>-&gt; <span class="keyword">float</span>-&gt; <span class="keyword">double</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>字符型转换为整型</strong>:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span>-&gt; <span class="keyword">int</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>隐式类型转化问题</strong>:</p>
+<p>进行算数运算过程中会自动提升类型</p>
+<ol>
+<li>返回结果为算式中的 <strong>最高精度的类型</strong>，如果存在字符串即为 <strong><code>String</code></strong> 类型</li>
+<li>转换时机为 <strong>根据结合律运算顺序！第一次碰到高精度</strong> 类型的时候</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">3</span>;</span><br><span class="line"><span class="keyword">float</span> f = <span class="number">1.0f</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">double</span> ret1 =  f * i / <span class="number">2</span> ;</span><br><span class="line"><span class="keyword">double</span> ret2 =  f + i / <span class="number">2</span> ;</span><br><span class="line">System.out.println(<span class="string">"ret1: "</span> + ret1);</span><br><span class="line">System.out.println(<span class="string">"ret2: "</span> + ret2);</span><br><span class="line"></span><br><span class="line"><span class="comment">/*///:~</span></span><br><span class="line"><span class="comment">    ret1: 1.5</span></span><br><span class="line"><span class="comment">    ret2: 2.0</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p><strong><code>*</code></strong> 的结合律要比 <strong><code>+</code></strong> 的集合率高，所以在 <code>ret2</code> 中先执行了 <code>i / 2</code> 后才遇到 <code>f</code> 向上转型为 <code>float</code>。</p>
+<h3 id="显示类型转化"><a href="#显示类型转化" class="headerlink" title="显示类型转化"></a>显示类型转化</h3><p><strong><code>(type)variableName</code></strong> 使用 <code>( )</code> 操作符可以对类型进行强制类型转化，在 <strong>高精度类型转向低精度类型</strong> 的过程会出现 <strong>精度丢失</strong> 的情况</p>
+<p><strong>浮点值</strong> 转成 <strong>整形值</strong> 的过程中会直接进行 <strong>截尾</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">int</span>)<span class="number">12.2</span> == <span class="number">12</span>  <span class="comment">///:~  true</span></span><br><span class="line">(<span class="keyword">int</span>)-<span class="number">0.6</span> == <span class="number">0</span>   <span class="comment">///:~  true</span></span><br></pre></td></tr></table></figure>
+
 <h1 id="包装类型"><a href="#包装类型" class="headerlink" title="包装类型"></a>包装类型</h1><p>所有的包装类型都 <strong><code>extends</code></strong> 自 <strong><code>java.lang.Number</code></strong> ，这些包装类型中，都是用了 <strong><code>private final xxx</code></strong> 来保存对应的基本数据类型的值，保证无法进行修改。</p>
 <h2 id="Integer"><a href="#Integer" class="headerlink" title="Integer"></a>Integer</h2><p><del><code>new Integer(int i)</code></del> 方法从 <strong><code>jdk 9</code></strong> 就被废弃了，推荐使用 <code>Integer.valueOf(int x)</code> 来新建对象</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Integer a = <span class="number">123</span>;</span><br><span class="line">Integer b = <span class="number">123</span>;</span><br><span class="line"></span><br><span class="line">System.out.println(<span class="string">"a == b: "</span> + a == b);</span><br><span class="line"></span><br><span class="line"><span class="comment">//~  a == b: true</span></span><br></pre></td></tr></table></figure>
@@ -665,8 +712,16 @@
 <li>同理从 <code>Integer</code> 到 <code>int</code> 就是调用 <code>Integer valueOf(int i)</code> 的逆向类型转化</li>
 </ul>
 <p><code>Integer</code> 中使用了 <strong>享元模式</strong>，对于 <code>-128 ~ 127</code> 之间的值已经在累加器加载 <code>Integer</code> 类的时候，将这区间的数值初始化到了 <code>Integer[] cache</code> 缓存池中，如果 <code>IntegerCache.low &lt;= x &amp;&amp; x &lt;= IntegerCache.high</code> 介于这个区间之中，调用这区间的 <code>Integer.vauleOf(x)</code> 并不会 <code>new</code> 新的 <code>Integer</code> 对象。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// java 12 source</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Integer</span> <span class="keyword">extends</span> <span class="title">Number</span></span></span><br><span class="line"><span class="class">        <span class="keyword">implements</span> <span class="title">Comparable</span>&lt;<span class="title">Integer</span>&gt;, <span class="title">Constable</span>, <span class="title">ConstantDesc</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> value;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@HotSpotIntrinsicCandidate</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">intValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> value;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@HotSpotIntrinsicCandidate</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Integer <span class="title">valueOf</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (i &gt;= IntegerCache.low &amp;&amp; i &lt;= IntegerCache.high)</span><br><span class="line">            <span class="keyword">return</span> IntegerCache.cache[i + (-IntegerCache.low)];</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Integer(i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// java 12 source</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Integer</span> <span class="keyword">extends</span> <span class="title">Number</span></span></span><br><span class="line"><span class="class">        <span class="keyword">implements</span> <span class="title">Comparable</span>&lt;<span class="title">Integer</span>&gt;, <span class="title">Constable</span>, <span class="title">ConstantDesc</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> value;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@HotSpotIntrinsicCandidate</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">intValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> value;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@HotSpotIntrinsicCandidate</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Integer <span class="title">valueOf</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (i &gt;= IntegerCache.low &amp;&amp; i &lt;= IntegerCache.high)    <span class="comment">// 命中缓存池，直接返回池中对应对象</span></span><br><span class="line">            <span class="keyword">return</span> IntegerCache.cache[i + (-IntegerCache.low)];</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Integer(i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h1 id="坑和经验"><a href="#坑和经验" class="headerlink" title="坑和经验"></a>坑和经验</h1><ul>
+<li><p><code>int</code> 记 <strong><code>20</code> 亿</strong>，十进制表示的时候就是 <strong><code>1e9</code></strong> =&gt; <strong><code>1</code> 后面 <code>9</code> 个 <code>0</code></strong>，做算法题的时候根据这个可以粗略的判断一下范围，选择是否使用比 <code>int</code> 范围更大的数据类型</p>
+</li>
+<li><p>在 <code>int compare(int b)</code> 比较函数中，经常使用 <code>return a - b;</code> 来实现，然而这样可能会爆掉 <code>int</code>，好的方法还是通过 <strong>比较来实现</strong></p>
+</li>
+<li><p><code>int</code> 用来记录 <code>DFS</code> 的状态是一种很好的技巧，因为 <code>DFS</code> 的时间复杂度一般来说是 <strong><code>O(n!)</code></strong> 指数级别的，状态位数不是很多可以使用 <code>int</code> 的二进制位来表示选和不选的状态</p>
+</li>
+</ul>
 
       
     </div>
@@ -715,6 +770,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/02/java复习-操作符和关键字/" rel="prev" title="[java复习] 操作符和关键字">
+                [java复习] 操作符和关键字 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -789,7 +848,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-count">7</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -901,7 +960,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概要"><span class="nav-number">1.</span> <span class="nav-text">概要</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常见数据类型"><span class="nav-number">2.</span> <span class="nav-text">常见数据类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基本类型"><span class="nav-number">3.</span> <span class="nav-text">基本类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#默认类型"><span class="nav-number">3.1.</span> <span class="nav-text">默认类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进制"><span class="nav-number">3.2.</span> <span class="nav-text">进制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#精度"><span class="nav-number">3.3.</span> <span class="nav-text">精度</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#包装类型"><span class="nav-number">4.</span> <span class="nav-text">包装类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Integer"><span class="nav-number">4.1.</span> <span class="nav-text">Integer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓冲池"><span class="nav-number">4.2.</span> <span class="nav-text">缓冲池</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#高精度"><span class="nav-number">4.3.</span> <span class="nav-text">高精度</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#自动装箱机制"><span class="nav-number">5.</span> <span class="nav-text">自动装箱机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#自动装箱知识点"><span class="nav-number">5.1.</span> <span class="nav-text">自动装箱知识点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#装箱实现"><span class="nav-number">5.2.</span> <span class="nav-text">装箱实现</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概要"><span class="nav-number">1.</span> <span class="nav-text">概要</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常见数据类型"><span class="nav-number">2.</span> <span class="nav-text">常见数据类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基本类型"><span class="nav-number">3.</span> <span class="nav-text">基本类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#默认类型"><span class="nav-number">3.1.</span> <span class="nav-text">默认类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进制"><span class="nav-number">3.2.</span> <span class="nav-text">进制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#精度"><span class="nav-number">3.3.</span> <span class="nav-text">精度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类型转化"><span class="nav-number">3.4.</span> <span class="nav-text">类型转化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#隐式类型转化"><span class="nav-number">3.4.1.</span> <span class="nav-text">隐式类型转化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#显示类型转化"><span class="nav-number">3.4.2.</span> <span class="nav-text">显示类型转化</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#包装类型"><span class="nav-number">4.</span> <span class="nav-text">包装类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Integer"><span class="nav-number">4.1.</span> <span class="nav-text">Integer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓冲池"><span class="nav-number">4.2.</span> <span class="nav-text">缓冲池</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#高精度"><span class="nav-number">4.3.</span> <span class="nav-text">高精度</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#自动装箱机制"><span class="nav-number">5.</span> <span class="nav-text">自动装箱机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#自动装箱知识点"><span class="nav-number">5.1.</span> <span class="nav-text">自动装箱知识点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#装箱实现"><span class="nav-number">5.2.</span> <span class="nav-text">装箱实现</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#坑和经验"><span class="nav-number">6.</span> <span class="nav-text">坑和经验</span></a></li></ol></div>
             
 
           </div>
