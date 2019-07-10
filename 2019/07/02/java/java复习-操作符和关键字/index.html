@@ -104,7 +104,7 @@
 <meta property="og:site_name" content="chenyiAlone Blog">
 <meta property="og:description" content="概要             这一章的复习主要涵常见的 运算符 及经常用到的 运算符操作 和 关键字。这里整理的都是个人觉得比较重要重新认真分析的东西，不一定全部为基础，如果有不准确的地方，还望大佬从评论区指出，感激不尽。文章中的所有的自定义的测试都在自己的 java-review 仓库中，本文对应的链接: 操作符关键字">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-07-09T14:10:31.273Z">
+<meta property="og:updated_time" content="2019-07-10T03:16:49.438Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[java复习] 操作符和关键字">
 <meta name="twitter:description" content="概要             这一章的复习主要涵常见的 运算符 及经常用到的 运算符操作 和 关键字。这里整理的都是个人觉得比较重要重新认真分析的东西，不一定全部为基础，如果有不准确的地方，还望大佬从评论区指出，感激不尽。文章中的所有的自定义的测试都在自己的 java-review 仓库中，本文对应的链接: 操作符关键字">
@@ -425,7 +425,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-09 22:10:31" itemprop="dateModified" datetime="2019-07-09T22:10:31+08:00">2019-07-09</time>
+                <time title="修改时间：2019-07-10 11:16:49" itemprop="dateModified" datetime="2019-07-10T11:16:49+08:00">2019-07-10</time>
               
             
           </span>
@@ -709,80 +709,6 @@
 </tr>
 </tbody></table>
 <h1 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h1><h2 id="package-关键字"><a href="#package-关键字" class="headerlink" title="package 关键字"></a>package 关键字</h2><pre><code>必须是第一条代码</code></pre><h2 id="import-关键字"><a href="#import-关键字" class="headerlink" title="import 关键字"></a>import 关键字</h2><p>编译器遇到 <code>import</code> 关键字会从 <code>classpath</code> 中开始查找对应路径的 <code>.class</code> 文件。</p>
-<h2 id="权限控制关键字"><a href="#权限控制关键字" class="headerlink" title="权限控制关键字"></a>权限控制关键字</h2><p>权限控制的是 <strong>类的属性</strong></p>
-<table>
-<thead>
-<tr>
-<th>Permission</th>
-<th>class</th>
-<th>package</th>
-<th>child class</th>
-<th>any class</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>public</td>
-<td>+</td>
-<td>+</td>
-<td>+</td>
-<td>+</td>
-</tr>
-<tr>
-<td>default</td>
-<td>+</td>
-<td>+</td>
-<td>+</td>
-<td></td>
-</tr>
-<tr>
-<td>protected</td>
-<td>+</td>
-<td>+</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>private</td>
-<td>+</td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<h3 id="权限控制测试"><a href="#权限控制测试" class="headerlink" title="权限控制测试"></a>权限控制测试</h3><p><strong>层次结构</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">permission</span><br><span class="line">    │</span><br><span class="line">    ├─ pack1</span><br><span class="line">    │      CurPackTest.java</span><br><span class="line">    │      Permission.java</span><br><span class="line">    │</span><br><span class="line">    └─ pack2</span><br><span class="line">            ChildPerm.java</span><br><span class="line">            OtherPackTest.java</span><br></pre></td></tr></table></figure>
-
-<p><strong>ps</strong>: 使用了 <strong><code>//!</code></strong> 注释掉的为保存的语句，也就是没有权限的测试</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 1. class 同一个类中测试 */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Permission</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span>    <span class="keyword">int</span> pubVal;</span><br><span class="line">              <span class="keyword">int</span> defVal;</span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">int</span> proVal;</span><br><span class="line">    <span class="keyword">private</span>   <span class="keyword">int</span> priVal;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.pubVal = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">this</span>.proVal = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">this</span>.defVal = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">this</span>.priVal = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 2. package 同一个包中的测试 */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CurPackTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Permission permission = <span class="keyword">new</span> Permission();</span><br><span class="line">        permission.pubVal = <span class="number">1</span>;</span><br><span class="line">        permission.defVal = <span class="number">1</span>;</span><br><span class="line">        permission.proVal = <span class="number">1</span>;</span><br><span class="line"><span class="comment">//!        permission.priVal = 1;   // private param can be used</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 3. child 子类中的测试 */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ChildPerm</span> <span class="keyword">extends</span> <span class="title">Permission</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setParentParam</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.pubVal = i;</span><br><span class="line"><span class="comment">//!        super.defVal = i;    // child class cannot use default param</span></span><br><span class="line"><span class="comment">//!        super.priVal = i;    // child class cannot use private param</span></span><br><span class="line">        <span class="keyword">super</span>.proVal = i;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// static 静态方法(例如 main) 只能通过对象实例的引用来访问</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">staticMethodTest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Permission permission = <span class="keyword">new</span> ChildPerm();</span><br><span class="line">        permission.pubVal = <span class="number">1</span>;</span><br><span class="line"><span class="comment">//!        permission.proVal = 1;  // protected cannot be used</span></span><br><span class="line"><span class="comment">//!        permission.defVal = 1;  // default cannot be used</span></span><br><span class="line"><span class="comment">//!        permission.priVal = 1;  // private cannot be used</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 4. any class 不同包任意类中的测试 */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OtherPackTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span></span>&#123;</span><br><span class="line">        Permission permission = <span class="keyword">new</span> Permission();</span><br><span class="line">        permission.pubVal = <span class="number">1</span>;</span><br><span class="line"><span class="comment">//!        permission.defVal = 1;   // default cannot be used</span></span><br><span class="line"><span class="comment">//!        permission.proVal = 1;   // protected cannot be used</span></span><br><span class="line"><span class="comment">//!        permission.priVal = 1;   // private cannot be used</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="通过对象实例访问"><a href="#通过对象实例访问" class="headerlink" title="通过对象实例访问"></a>通过对象实例访问</h3><ol>
-<li><strong>相同包下</strong> 通过对象引用 访问拥有包权限以上的属性<ul>
-<li><strong><code>public</code></strong></li>
-<li><strong><code>protected</code></strong></li>
-<li><strong><code>default</code></strong></li>
-</ul>
-</li>
-</ol>
-<ol start="3">
-<li><strong>不同包下</strong> 只能访问<ul>
-<li><strong><code>public</code></strong></li>
-</ul>
-</li>
-</ol>
-<h3 id="通过自身和继承的属性访问"><a href="#通过自身和继承的属性访问" class="headerlink" title="通过自身和继承的属性访问"></a>通过自身和继承的属性访问</h3><ol>
-<li><strong>当前类中</strong> 拥有全部的权限<ul>
-<li><strong><code>public</code></strong></li>
-<li><strong><code>protected</code></strong></li>
-<li><strong><code>default</code></strong></li>
-</ul>
-</li>
-</ol>
-<ol start="2">
-<li><strong>导出类中</strong> 和 <u>通过对象</u> 的访问基本一致，只是多了<ul>
-<li>能调用父类的 <code>protected</code> 属性的权限，需要注意的是子类中直接通过 <strong><code>super.</code></strong> 关键字来访问属性，并 <font color="red"><strong>不是通过对象引用来访问！</strong></font></li>
-</ul>
-</li>
-</ol>
 <h2 id="this-关键字"><a href="#this-关键字" class="headerlink" title="this 关键字"></a>this 关键字</h2><p><strong><code>this</code> 当前对象引用</strong></p>
 <ol>
 <li><p><strong><code>this</code></strong> 关键字只 <strong>能用于方法中</strong>，<code>this</code> 代表的是调用当前方法的对象实例</p>
@@ -1109,7 +1035,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概要"><span class="nav-number">1.</span> <span class="nav-text">概要</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#操作符"><span class="nav-number">2.</span> <span class="nav-text">操作符</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#算数运算符"><span class="nav-number">2.1.</span> <span class="nav-text">算数运算符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#等价操作符"><span class="nav-number">2.2.</span> <span class="nav-text">等价操作符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#直接常量"><span class="nav-number">2.3.</span> <span class="nav-text">直接常量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#指定进制"><span class="nav-number">2.3.1.</span> <span class="nav-text">指定进制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指定类型"><span class="nav-number">2.3.2.</span> <span class="nav-text">指定类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指数计数"><span class="nav-number">2.3.3.</span> <span class="nav-text">指数计数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#移位操作符"><span class="nav-number">2.4.</span> <span class="nav-text">移位操作符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自动递增和递减"><span class="nav-number">2.5.</span> <span class="nav-text">自动递增和递减</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#位运算操作符"><span class="nav-number">2.6.</span> <span class="nav-text">位运算操作符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作符优先级"><span class="nav-number">2.7.</span> <span class="nav-text">操作符优先级</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关键字"><span class="nav-number">3.</span> <span class="nav-text">关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#package-关键字"><span class="nav-number">3.1.</span> <span class="nav-text">package 关键字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#import-关键字"><span class="nav-number">3.2.</span> <span class="nav-text">import 关键字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#权限控制关键字"><span class="nav-number">3.3.</span> <span class="nav-text">权限控制关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#权限控制测试"><span class="nav-number">3.3.1.</span> <span class="nav-text">权限控制测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过对象实例访问"><span class="nav-number">3.3.2.</span> <span class="nav-text">通过对象实例访问</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过自身和继承的属性访问"><span class="nav-number">3.3.3.</span> <span class="nav-text">通过自身和继承的属性访问</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#this-关键字"><span class="nav-number">3.4.</span> <span class="nav-text">this 关键字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#static-关键字"><span class="nav-number">3.5.</span> <span class="nav-text">static 关键字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#final-关键字"><span class="nav-number">3.6.</span> <span class="nav-text">final 关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#final-数据"><span class="nav-number">3.6.1.</span> <span class="nav-text">final 数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#final-方法"><span class="nav-number">3.6.2.</span> <span class="nav-text">final 方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#final-类"><span class="nav-number">3.6.3.</span> <span class="nav-text">final 类</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概要"><span class="nav-number">1.</span> <span class="nav-text">概要</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#操作符"><span class="nav-number">2.</span> <span class="nav-text">操作符</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#算数运算符"><span class="nav-number">2.1.</span> <span class="nav-text">算数运算符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#等价操作符"><span class="nav-number">2.2.</span> <span class="nav-text">等价操作符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#直接常量"><span class="nav-number">2.3.</span> <span class="nav-text">直接常量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#指定进制"><span class="nav-number">2.3.1.</span> <span class="nav-text">指定进制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指定类型"><span class="nav-number">2.3.2.</span> <span class="nav-text">指定类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指数计数"><span class="nav-number">2.3.3.</span> <span class="nav-text">指数计数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#移位操作符"><span class="nav-number">2.4.</span> <span class="nav-text">移位操作符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自动递增和递减"><span class="nav-number">2.5.</span> <span class="nav-text">自动递增和递减</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#位运算操作符"><span class="nav-number">2.6.</span> <span class="nav-text">位运算操作符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作符优先级"><span class="nav-number">2.7.</span> <span class="nav-text">操作符优先级</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关键字"><span class="nav-number">3.</span> <span class="nav-text">关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#package-关键字"><span class="nav-number">3.1.</span> <span class="nav-text">package 关键字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#import-关键字"><span class="nav-number">3.2.</span> <span class="nav-text">import 关键字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#this-关键字"><span class="nav-number">3.3.</span> <span class="nav-text">this 关键字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#static-关键字"><span class="nav-number">3.4.</span> <span class="nav-text">static 关键字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#final-关键字"><span class="nav-number">3.5.</span> <span class="nav-text">final 关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#final-数据"><span class="nav-number">3.5.1.</span> <span class="nav-text">final 数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#final-方法"><span class="nav-number">3.5.2.</span> <span class="nav-text">final 方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#final-类"><span class="nav-number">3.5.3.</span> <span class="nav-text">final 类</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

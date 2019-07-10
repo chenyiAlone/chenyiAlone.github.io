@@ -103,7 +103,7 @@
 <meta property="og:site_name" content="chenyiAlone Blog">
 <meta property="og:description" content="概要             这一章的复习主要涵常见的。这里整理的都是个人觉得比较重要重新认真分析的东西，不一定全部为基础，如果有不准确的地方，还望大佬从评论区指出，感激不尽。文章中的所有的自定义的测试都在自己的 java-review 仓库中，本文对应的链接: 继承">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-07-09T14:29:34.126Z">
+<meta property="og:updated_time" content="2019-07-10T08:31:03.496Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[java复习] 继承">
 <meta name="twitter:description" content="概要             这一章的复习主要涵常见的。这里整理的都是个人觉得比较重要重新认真分析的东西，不一定全部为基础，如果有不准确的地方，还望大佬从评论区指出，感激不尽。文章中的所有的自定义的测试都在自己的 java-review 仓库中，本文对应的链接: 继承">
@@ -407,12 +407,24 @@
                 
               
 
-              <time title="创建时间：2019-07-09 21:45:01 / 修改时间：22:29:34" itemprop="dateCreated datePublished" datetime="2019-07-09T21:45:01+08:00">2019-07-09</time>
+              <time title="创建时间：2019-07-09 21:45:01" itemprop="dateCreated datePublished" datetime="2019-07-09T21:45:01+08:00">2019-07-09</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-07-10 16:31:03" itemprop="dateModified" datetime="2019-07-10T16:31:03+08:00">2019-07-10</time>
               
             
           </span>
@@ -471,20 +483,101 @@
 
       
         <h1 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h1><div class="note primary">
-            <p>这一章的复习主要涵常见的。<br>这里整理的都是个人觉得比较重要重新认真分析的东西，不一定全部为基础，如果有不准确的地方，还望大佬从评论区指出，感激不尽。</p><p>文章中的所有的自定义的测试都在自己的 <strong><code>java-review</code></strong> 仓库中，本文对应的链接: </p><ul><li><a href>继承</a></li></ul>
+            <p>这一章的复习主要涵常见的。<br>这里整理的都是个人觉得比较重要重新认真分析的东西，不一定全部为基础，如果有不准确的地方，还望大佬从评论区指出，感激不尽。</p><p>文章中的所有的自定义的测试都在自己的 <strong><code>java-review</code></strong> 仓库中，本文对应的链接: </p><ul><li><a href="/2019/07/05/java/java复习-初始化/">继承</a></li></ul>
           </div>
 
 <a id="more"></a>
 
-<h1 id="继承类的初始化"><a href="#继承类的初始化" class="headerlink" title="继承类的初始化"></a>继承类的初始化</h1><p>这一部分在 <a href>初始化</a> 一文中有详细的解释</p>
+<h1 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h1><p><code>java</code> 中采用的是单继承，其中 <code>java.lang.Object</code> 是所有类的父类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// java 12 source</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Object</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">registerNatives</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        registerNatives();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/* Constructs a new object. */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Object</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Return the runtime class of this Object */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> Class&lt;?&gt; getClass();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Return a hash value for the Object. */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">native</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Indicates whether some other object is "equal to" this one. */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (<span class="keyword">this</span> == obj);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*  */</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">native</span> Object <span class="title">clone</span><span class="params">()</span> <span class="keyword">throws</span> CloneNotSupportedException</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> getClass().getName() + <span class="string">"@"</span> + Integer.toHexString(hashCode());</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">notify</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">notifyAll</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">wait</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        wait(<span class="number">0L</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">wait</span><span class="params">(<span class="keyword">long</span> timeoutMillis)</span> <span class="keyword">throws</span> InterruptedException</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">wait</span><span class="params">(<span class="keyword">long</span> timeoutMillis, <span class="keyword">int</span> nanos)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (timeoutMillis &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"timeoutMillis value is negative"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (nanos &lt; <span class="number">0</span> || nanos &gt; <span class="number">999999</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(</span><br><span class="line">                                <span class="string">"nanosecond timeout value out of range"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (nanos &gt; <span class="number">0</span> &amp;&amp; timeoutMillis &lt; Long.MAX_VALUE) &#123;</span><br><span class="line">            timeoutMillis++;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        wait(timeoutMillis);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">finalize</span><span class="params">()</span> <span class="keyword">throws</span> Throwable </span>&#123; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="权限控制关键字"><a href="#权限控制关键字" class="headerlink" title="权限控制关键字"></a>权限控制关键字</h1><table>
+<thead>
+<tr>
+<th>Permission</th>
+<th>class</th>
+<th>package</th>
+<th>child class</th>
+<th>any class</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>public</td>
+<td>+</td>
+<td>+</td>
+<td>+</td>
+<td>+</td>
+</tr>
+<tr>
+<td>default</td>
+<td>+</td>
+<td>+</td>
+<td>+</td>
+<td></td>
+</tr>
+<tr>
+<td>protected</td>
+<td>+</td>
+<td>+</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>private</td>
+<td>+</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>如果子类的方法重写 <strong><code>@Override</code></strong> 了父类的方法，那么 <font color="orange">子类中该方法的访问级别不允许低于父类的访问级别</font></p>
+<p>这是为了确保可以使用父类实例的地方都可以使用子类实例，也就是确保满足 <strong>里氏替换原则</strong></p>
+<h2 id="权限控制测试"><a href="#权限控制测试" class="headerlink" title="权限控制测试"></a>权限控制测试</h2><p><strong>层次结构</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">permission</span><br><span class="line">    │</span><br><span class="line">    ├─ pack1</span><br><span class="line">    │      CurPackTest.java</span><br><span class="line">    │      Permission.java</span><br><span class="line">    │</span><br><span class="line">    └─ pack2</span><br><span class="line">            ChildPerm.java</span><br><span class="line">            OtherPackTest.java</span><br></pre></td></tr></table></figure>
+
+<p><strong>ps</strong>: 使用了 <strong><code>//!</code></strong> 注释掉的为保存的语句，也就是没有权限的测试</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 1. class 同一个类中测试 */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Permission</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span>    <span class="keyword">int</span> pubVal;</span><br><span class="line">              <span class="keyword">int</span> defVal;</span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">int</span> proVal;</span><br><span class="line">    <span class="keyword">private</span>   <span class="keyword">int</span> priVal;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.pubVal = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">this</span>.proVal = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">this</span>.defVal = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">this</span>.priVal = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 2. package 同一个包中的测试 */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CurPackTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Permission permission = <span class="keyword">new</span> Permission();</span><br><span class="line">        permission.pubVal = <span class="number">1</span>;</span><br><span class="line">        permission.defVal = <span class="number">1</span>;</span><br><span class="line">        permission.proVal = <span class="number">1</span>;</span><br><span class="line"><span class="comment">//!        permission.priVal = 1;   // private param can be used</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 3. child 子类中的测试 */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ChildPerm</span> <span class="keyword">extends</span> <span class="title">Permission</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setParentParam</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.pubVal = i;</span><br><span class="line"><span class="comment">//!        super.defVal = i;    // child class cannot use default param</span></span><br><span class="line"><span class="comment">//!        super.priVal = i;    // child class cannot use private param</span></span><br><span class="line">        <span class="keyword">super</span>.proVal = i;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// static 静态方法(例如 main) 只能通过对象实例的引用来访问</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">staticMethodTest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Permission permission = <span class="keyword">new</span> ChildPerm();</span><br><span class="line">        permission.pubVal = <span class="number">1</span>;</span><br><span class="line"><span class="comment">//!        permission.proVal = 1;  // protected cannot be used</span></span><br><span class="line"><span class="comment">//!        permission.defVal = 1;  // default cannot be used</span></span><br><span class="line"><span class="comment">//!        permission.priVal = 1;  // private cannot be used</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 4. any class 不同包任意类中的测试 */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OtherPackTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span></span>&#123;</span><br><span class="line">        Permission permission = <span class="keyword">new</span> Permission();</span><br><span class="line">        permission.pubVal = <span class="number">1</span>;</span><br><span class="line"><span class="comment">//!        permission.defVal = 1;   // default cannot be used</span></span><br><span class="line"><span class="comment">//!        permission.proVal = 1;   // protected cannot be used</span></span><br><span class="line"><span class="comment">//!        permission.priVal = 1;   // private cannot be used</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="通过对象实例访问"><a href="#通过对象实例访问" class="headerlink" title="通过对象实例访问"></a>通过对象实例访问</h2><ol>
+<li><strong>相同包下</strong> 通过对象引用 访问拥有包权限以上的属性<ul>
+<li><strong><code>public</code></strong></li>
+<li><strong><code>protected</code></strong></li>
+<li><strong><code>default</code></strong></li>
+</ul>
+</li>
+</ol>
+<ol start="3">
+<li><strong>不同包下</strong> 只能访问<ul>
+<li><strong><code>public</code></strong></li>
+</ul>
+</li>
+</ol>
+<h2 id="通过自身和继承的属性访问"><a href="#通过自身和继承的属性访问" class="headerlink" title="通过自身和继承的属性访问"></a>通过自身和继承的属性访问</h2><ol>
+<li><strong>当前类中</strong> 拥有全部的权限<ul>
+<li><strong><code>public</code></strong></li>
+<li><strong><code>protected</code></strong></li>
+<li><strong><code>default</code></strong></li>
+</ul>
+</li>
+</ol>
+<ol start="2">
+<li><strong>导出类中</strong> 和 <u>通过对象实例</u> 的访问基本一致，区别在于 <code>protected</code> 继承权限修饰符 (即子类的内部)<ul>
+<li>子类中可以直接通过 <strong><code>super.</code></strong> 关键字来访问父类的继承权限的成员和方法，并 <font color="red"><strong>不是通过对象实例引用来访问！</strong></font></li>
+</ul>
+</li>
+</ol>
+<h1 id="继承类的初始化"><a href="#继承类的初始化" class="headerlink" title="继承类的初始化"></a>继承类的初始化</h1><p><strong>这一部分在</strong> {post_link 初始化 } <strong>一文中有详细的解释，这里简单说明一下类初始化顺序</strong></p>
+<ol>
+<li>按照从 <strong>父类-&gt; 子类，按照声明顺序从上-&gt; 下</strong>，初始化父类和子类的中的 <strong>静态</strong> 成员/域</li>
+<li>按照从 <strong>父类-&gt; 子类，按照声明顺序从上-&gt; 下</strong>，初始化父类和子类的中的 <strong>非静态</strong> 成员/域</li>
+<li>按照从 <strong>父类-&gt; 子类</strong>，调用构造器完成舒适化</li>
+</ol>
 <h1 id="初始化的位置"><a href="#初始化的位置" class="headerlink" title="初始化的位置"></a>初始化的位置</h1><ol>
 <li>声明的位置</li>
 <li>构造器中</li>
 <li>调用之前(惰性初始化)</li>
 <li>使用实例初始化</li>
 </ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <h1 id="覆盖"><a href="#覆盖" class="headerlink" title="覆盖"></a>覆盖</h1><p>无论是</p>
 
       
@@ -719,7 +812,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概要"><span class="nav-number">1.</span> <span class="nav-text">概要</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#继承类的初始化"><span class="nav-number">2.</span> <span class="nav-text">继承类的初始化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#初始化的位置"><span class="nav-number">3.</span> <span class="nav-text">初始化的位置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#覆盖"><span class="nav-number">4.</span> <span class="nav-text">覆盖</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概要"><span class="nav-number">1.</span> <span class="nav-text">概要</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Object"><span class="nav-number">2.</span> <span class="nav-text">Object</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#权限控制关键字"><span class="nav-number">3.</span> <span class="nav-text">权限控制关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#权限控制测试"><span class="nav-number">3.1.</span> <span class="nav-text">权限控制测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过对象实例访问"><span class="nav-number">3.2.</span> <span class="nav-text">通过对象实例访问</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过自身和继承的属性访问"><span class="nav-number">3.3.</span> <span class="nav-text">通过自身和继承的属性访问</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#继承类的初始化"><span class="nav-number">4.</span> <span class="nav-text">继承类的初始化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#初始化的位置"><span class="nav-number">5.</span> <span class="nav-text">初始化的位置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#覆盖"><span class="nav-number">6.</span> <span class="nav-text">覆盖</span></a></li></ol></div>
             
 
           </div>
