@@ -104,7 +104,7 @@
 <meta property="og:site_name" content="chenyiAlone Blog">
 <meta property="og:description" content="概要             这一章的复习主要涵盖 String 的属性原理，String常量池，反编译探究字符串拼接，以及 AbstractStringBuilder 的核心方法实现。这里整理的都是个人觉得比较重要重新认真分析的东西，不一定全部为基础，如果有不准确的地方，还望大佬从评论区指出，感激不尽。文章中的所有的自定义的测试都在自己的 java-review 仓库中，本文对应的链接: 字符串">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-07-06T12:06:07.942Z">
+<meta property="og:updated_time" content="2019-07-14T08:50:59.207Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[java复习] 字符串">
 <meta name="twitter:description" content="概要             这一章的复习主要涵盖 String 的属性原理，String常量池，反编译探究字符串拼接，以及 AbstractStringBuilder 的核心方法实现。这里整理的都是个人觉得比较重要重新认真分析的东西，不一定全部为基础，如果有不准确的地方，还望大佬从评论区指出，感激不尽。文章中的所有的自定义的测试都在自己的 java-review 仓库中，本文对应的链接: 字符串">
@@ -425,7 +425,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-06 20:06:07" itemprop="dateModified" datetime="2019-07-06T20:06:07+08:00">2019-07-06</time>
+                <time title="修改时间：2019-07-14 16:50:59" itemprop="dateModified" datetime="2019-07-14T16:50:59+08:00">2019-07-14</time>
               
             
           </span>
@@ -514,21 +514,33 @@
 
 <a id="more"></a>
 
-<h1 id="String"><a href="#String" class="headerlink" title="String"></a>String</h1><p><code>String s = new String(&quot;abc&quot;)</code> 执行过程中创建了两个对象</p>
+<h1 id="String"><a href="#String" class="headerlink" title="String"></a>String</h1><h2 id="String-的创建"><a href="#String-的创建" class="headerlink" title="String 的创建"></a>String 的创建</h2><h3 id="new-String"><a href="#new-String" class="headerlink" title="new String()"></a>new String()</h3><p><code>String s = new String(&quot;abc&quot;)</code> 执行过程中创建了两个对象</p>
 <ol>
 <li>第一个对象是 <code>&quot;abc&quot;</code> 字符串存储在 <strong>常量池</strong> 中</li>
 <li>第二个对象在 <code>JAVA Heap</code> 中的 <code>String</code> 对象</li>
 </ol>
+<h3 id="StringBuildler-append"><a href="#StringBuildler-append" class="headerlink" title="StringBuildler # append"></a>StringBuildler # append</h3><pre><code>编译器会自动优化，使用 StringBuilder 来拼接创建字符串</code></pre><p>使用 <code>StringBuilder</code> 多字符串拼接，来创建字符串的时候只在堆中创建 <code>String</code> 对象，不会直接放到字符串常量池中，调用对象实例的 <code>String # intern</code> 方法</p>
+<ol>
+<li>这个字符串不在字符串常量池中时，才会将这个在堆中的 <code>Stirng</code> 对象引用保存到常量池中并返回这个引用</li>
+<li>常量池中存在这个 <code>String</code> 对象(直接创建的 <code>String</code> 对象或者之前通过 <code>String # intern</code> 保存过来的相同的字符串的引用)，直接返回</li>
+</ol>
+<h2 id="空串-“”-和-null"><a href="#空串-“”-和-null" class="headerlink" title="空串 “” 和 null"></a>空串 “” 和 null</h2><ul>
+<li><code>&quot;&quot;</code> 代表的是一个字符长度为 <code>0</code> 的字符串对象，而不是 <code>null</code></li>
+<li>印证了 equals() 的比较原则，一个对象跟 null 进行比较的的结果永远是 null</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// test</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">emptyNull</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        String str = <span class="string">""</span>;</span><br><span class="line">        log(<span class="string">"str == null: "</span> + (str == <span class="keyword">null</span>));</span><br><span class="line">        log(<span class="string">"str.equals(null): "</span> + str.equals(<span class="keyword">null</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* Output:</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">            str == null: false</span></span><br><span class="line"><span class="comment">            str.equals(null): false</span></span><br><span class="line"><span class="comment">        */</span><span class="comment">//:~</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="java-8-9-源码的变化"><a href="#java-8-9-源码的变化" class="headerlink" title="java 8-9 源码的变化"></a>java 8-9 源码的变化</h2><p>在 <code>Java 8</code> 中，<code>String</code> 内部使用 <code>char[]</code> 数组存储数据。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// java 8 source</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">String</span></span></span><br><span class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span>, <span class="title">Comparable</span>&lt;<span class="title">String</span>&gt;, <span class="title">CharSequence</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** The value is used for character storage. */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">char</span> value[];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>在 <code>Java 9</code> 之后，<code>String</code> 类的实现改用 <code>byte[]</code> 数组存储字符串，同时使用 <code>byte coder</code> 来标识使用了哪种编码。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// java 12 source</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">String</span></span></span><br><span class="line"><span class="class">    <span class="keyword">implements</span> <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span>, <span class="title">Comparable</span>&lt;<span class="title">String</span>&gt;, <span class="title">CharSequence</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** The value is used for character storage. */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">byte</span>[] value;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** The identifier of the encoding used to encode the bytes in &#123;<span class="doctag">@code</span> value&#125;. */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">byte</span> coder;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h1 id="String-常量池"><a href="#String-常量池" class="headerlink" title="String 常量池"></a>String 常量池</h1><p><code>String s = new String(&quot;abc&quot;)</code> 执行过程中创建了两个对象</p>
+<h1 id="String-常量池"><a href="#String-常量池" class="headerlink" title="String 常量池"></a>String 常量池</h1><p><strong>何时将字符串保存到常量池中以及保存的格式(假设此时常量池中不存在 “123” 字符串)</strong>：</p>
 <ol>
-<li>第一个对象是 <code>&quot;abc&quot;</code> 字符串存储在 <strong>常量池</strong> 中</li>
-<li>第二个对象在 <code>JAVA Heap</code> 中的 <code>String</code> 对象</li>
+<li><code>String str = &quot;123&quot;;</code> 会直接在常量池中创建一个对象</li>
+<li><code>String str = new String(&quot;123&quot;);</code> 堆中创建一个对象，常量池中创建一个对象</li>
+<li></li>
 </ol>
 <h2 id="jdk-6-7-中的变化"><a href="#jdk-6-7-中的变化" class="headerlink" title="jdk 6 ~ 7 中的变化"></a>jdk 6 ~ 7 中的变化</h2><p><strong>从 <code>jkd 6</code> 到 <code>jdk 7</code> 中</strong></p>
 <ol>
@@ -537,18 +549,14 @@
 </ol>
 <h2 id="String-和-常量池的关系"><a href="#String-和-常量池的关系" class="headerlink" title="String 和 常量池的关系"></a>String 和 常量池的关系</h2><p><strong>关于 <code>str1 = new String(&quot;123&quot;)</code> 和 <code>str = &quot;123&quot;</code> 的两种情况分析</strong></p>
 <ul>
-<li><strong><code>str = new String(&quot;123&quot;)</code> 分析</strong><ol>
+<li><p><strong><code>str = new String(&quot;123&quot;);</code> 分析</strong></p>
+<ol>
 <li>在堆中创建一个 <code>String</code> 对象</li>
-<li>初始化 <code>Stirng</code><ul>
-<li>缓存池中没有这个 <code>String</code> 对应的字符换，就会将它的 <strong>引用放到常量池中</strong></li>
-<li>缓存池中有这个 <code>String</code> 对应的字符串，就让这个 <code>String</code> 对象，指向常量池的中的引用</li>
-</ul>
-</li>
+<li>字符串常量池中 <font color="orange"><strong>没有</strong></font> 对应的字符串，就会将它的 <strong>引用放到常量池中</strong></li>
 </ol>
 </li>
-</ul>
+<li><p><strong><code>str = &quot;123&quot;;</code> 分析</strong></p>
 <ul>
-<li><strong><code>str = new Strng()</code> 分析</strong><ul>
 <li>常量池中没有这个 <code>String</code>，直接在常量池中 <strong>创建这个字符串对象</strong>，并将引用返回</li>
 <li>缓存池中有这个 <code>String</code>，直接将引用返回，引用可能为<ol>
 <li><strong>常量池中的对象引用</strong></li>
@@ -829,7 +837,7 @@
                     
                       
                     
-                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-count">11</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -914,7 +922,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概要"><span class="nav-number">1.</span> <span class="nav-text">概要</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#String"><span class="nav-number">2.</span> <span class="nav-text">String</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#java-8-9-源码的变化"><span class="nav-number">2.1.</span> <span class="nav-text">java 8-9 源码的变化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#String-常量池"><span class="nav-number">3.</span> <span class="nav-text">String 常量池</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#jdk-6-7-中的变化"><span class="nav-number">3.1.</span> <span class="nav-text">jdk 6 ~ 7 中的变化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#String-和-常量池的关系"><span class="nav-number">3.2.</span> <span class="nav-text">String 和 常量池的关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#String-intern"><span class="nav-number">3.3.</span> <span class="nav-text">String intern()</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#String-的不变性"><span class="nav-number">4.</span> <span class="nav-text">String 的不变性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#不变性的优点"><span class="nav-number">4.1.</span> <span class="nav-text">不变性的优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不变性的分析"><span class="nav-number">4.2.</span> <span class="nav-text">不变性的分析</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#重载-“-”-和-“-”"><span class="nav-number">5.</span> <span class="nav-text">重载 “+” 和 “+=”</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#String-类型提升"><span class="nav-number">5.1.</span> <span class="nav-text">String 类型提升</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#“-”-字符串拼接分析"><span class="nav-number">5.2.</span> <span class="nav-text">“+” 字符串拼接分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#测试代码及反编译字节码"><span class="nav-number">5.2.1.</span> <span class="nav-text">测试代码及反编译字节码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试什么时候创建新的-StringBuilder-对象"><span class="nav-number">5.2.2.</span> <span class="nav-text">测试什么时候创建新的 StringBuilder 对象</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AbstractStringBuilder"><span class="nav-number">6.</span> <span class="nav-text">AbstractStringBuilder</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#appned-方法"><span class="nav-number">6.1.</span> <span class="nav-text">appned() 方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#源码分析"><span class="nav-number">6.2.</span> <span class="nav-text">源码分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#insert-方法"><span class="nav-number">6.3.</span> <span class="nav-text">insert() 方法</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概要"><span class="nav-number">1.</span> <span class="nav-text">概要</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#String"><span class="nav-number">2.</span> <span class="nav-text">String</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#String-的创建"><span class="nav-number">2.1.</span> <span class="nav-text">String 的创建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#new-String"><span class="nav-number">2.1.1.</span> <span class="nav-text">new String()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#StringBuildler-append"><span class="nav-number">2.1.2.</span> <span class="nav-text">StringBuildler # append</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#空串-“”-和-null"><span class="nav-number">2.2.</span> <span class="nav-text">空串 “” 和 null</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#java-8-9-源码的变化"><span class="nav-number">2.3.</span> <span class="nav-text">java 8-9 源码的变化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#String-常量池"><span class="nav-number">3.</span> <span class="nav-text">String 常量池</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#jdk-6-7-中的变化"><span class="nav-number">3.1.</span> <span class="nav-text">jdk 6 ~ 7 中的变化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#String-和-常量池的关系"><span class="nav-number">3.2.</span> <span class="nav-text">String 和 常量池的关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#String-intern"><span class="nav-number">3.3.</span> <span class="nav-text">String intern()</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#String-的不变性"><span class="nav-number">4.</span> <span class="nav-text">String 的不变性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#不变性的优点"><span class="nav-number">4.1.</span> <span class="nav-text">不变性的优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不变性的分析"><span class="nav-number">4.2.</span> <span class="nav-text">不变性的分析</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#重载-“-”-和-“-”"><span class="nav-number">5.</span> <span class="nav-text">重载 “+” 和 “+=”</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#String-类型提升"><span class="nav-number">5.1.</span> <span class="nav-text">String 类型提升</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#“-”-字符串拼接分析"><span class="nav-number">5.2.</span> <span class="nav-text">“+” 字符串拼接分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#测试代码及反编译字节码"><span class="nav-number">5.2.1.</span> <span class="nav-text">测试代码及反编译字节码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试什么时候创建新的-StringBuilder-对象"><span class="nav-number">5.2.2.</span> <span class="nav-text">测试什么时候创建新的 StringBuilder 对象</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AbstractStringBuilder"><span class="nav-number">6.</span> <span class="nav-text">AbstractStringBuilder</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#appned-方法"><span class="nav-number">6.1.</span> <span class="nav-text">appned() 方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#源码分析"><span class="nav-number">6.2.</span> <span class="nav-text">源码分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#insert-方法"><span class="nav-number">6.3.</span> <span class="nav-text">insert() 方法</span></a></li></ol></li></ol></div>
             
 
           </div>

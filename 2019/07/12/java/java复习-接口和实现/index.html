@@ -99,14 +99,14 @@
   <meta name="description" content="概要             这一章的复习主要涵盖 。这里整理的都是个人觉得比较重要重新认真分析的东西，不一定全部为基础，如果有不准确的地方，还望大佬从评论区指出，感激不尽。文章中的所有的自定义的测试都在自己的 java-review 仓库中，本文对应的链接: 接口抽象类内部类">
 <meta name="keywords" content="java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[java复习]接口和实现">
+<meta property="og:title" content="[java复习] 接口和实现">
 <meta property="og:url" content="http://yoursite.com/2019/07/12/java/java复习-接口和实现/index.html">
 <meta property="og:site_name" content="chenyiAlone Blog">
 <meta property="og:description" content="概要             这一章的复习主要涵盖 。这里整理的都是个人觉得比较重要重新认真分析的东西，不一定全部为基础，如果有不准确的地方，还望大佬从评论区指出，感激不尽。文章中的所有的自定义的测试都在自己的 java-review 仓库中，本文对应的链接: 接口抽象类内部类">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-07-12T03:50:36.405Z">
+<meta property="og:updated_time" content="2019-07-14T14:58:35.094Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="[java复习]接口和实现">
+<meta name="twitter:title" content="[java复习] 接口和实现">
 <meta name="twitter:description" content="概要             这一章的复习主要涵盖 。这里整理的都是个人觉得比较重要重新认真分析的东西，不一定全部为基础，如果有不准确的地方，还望大佬从评论区指出，感激不尽。文章中的所有的自定义的测试都在自己的 java-review 仓库中，本文对应的链接: 接口抽象类内部类">
 
 
@@ -125,7 +125,7 @@
   };
 </script>
 
-  <title>[java复习]接口和实现 | chenyiAlone Blog</title>
+  <title>[java复习] 接口和实现 | chenyiAlone Blog</title>
   
 
 
@@ -382,7 +382,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">[java复习]接口和实现
+          <h1 class="post-title" itemprop="name headline">[java复习] 接口和实现
 
               
             
@@ -408,12 +408,24 @@
                 
               
 
-              <time title="创建时间：2019-07-12 11:16:26 / 修改时间：11:50:36" itemprop="dateCreated datePublished" datetime="2019-07-12T11:16:26+08:00">2019-07-12</time>
+              <time title="创建时间：2019-07-12 11:16:26" itemprop="dateCreated datePublished" datetime="2019-07-12T11:16:26+08:00">2019-07-12</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-07-14 22:58:35" itemprop="dateModified" datetime="2019-07-14T22:58:35+08:00">2019-07-14</time>
               
             
           </span>
@@ -441,6 +453,13 @@
 
                 
                 
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/多态/接口/" itemprop="url" rel="index"><span itemprop="name">接口</span></a></span>
+
+                
+                
               
             </span>
           
@@ -465,7 +484,7 @@
 
           
           
-            <span id="/2019/07/12/java/java复习-接口和实现/" class="leancloud_visitors" data-flag-title="[java复习]接口和实现">
+            <span id="/2019/07/12/java/java复习-接口和实现/" class="leancloud_visitors" data-flag-title="[java复习] 接口和实现">
               <span class="post-meta-divider">|</span>
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
@@ -502,7 +521,70 @@
 
 <a id="more"></a>
 
-<h2 id="抽象类和抽象方法"><a href="#抽象类和抽象方法" class="headerlink" title="抽象类和抽象方法"></a>抽象类和抽象方法</h2><p><code>abstract</code></p>
+<h1 id="抽象类和抽象方法"><a href="#抽象类和抽象方法" class="headerlink" title="抽象类和抽象方法"></a>抽象类和抽象方法</h1><pre><code>抽象类中可以没有抽象方法，但有抽象方法的类必须是抽象类</code></pre><ol>
+<li>抽象类和普通的类，在继类的承和接口的实现上的规范是基本相同的，都采用 <strong>单继承</strong></li>
+<li><code>abstract</code> 关键字可以指定一个类或方法为抽象的，表示类或方法不完整，使得必须<ol>
+<li><ul>
+<li><strong>子类继承抽象类</strong></li>
+</ul>
+</li>
+<li><ul>
+<li><strong>重写方法</strong> (因为必须重写，所以方法必须暴露给子类，所以不能使用 <code>private</code> 修饰，私有化方法就会必须重写暴露给子类矛盾)</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>抽象类无法直接创建对象实例</li>
+</ol>
+<h1 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h1><ol>
+<li><strong>接口的方法</strong></li>
+</ol>
+<ul>
+<li>接口中的方法的权限都是 <code>public</code> </li>
+<li>在实现接口的时候，根据方法重写的规则，必须将方法的权限设置为 <code>public</code></li>
+</ul>
+<ol start="2">
+<li><strong>接口的成员变量</strong></li>
+</ol>
+<ul>
+<li><code>interface</code> 产生一个 <u>完全抽象的类</u>，它内部的所有的方法必须都是抽象的，所有成员变量都是 <strong><code>public static</code></strong> </li>
+</ul>
+<h2 id="接口继承"><a href="#接口继承" class="headerlink" title="接口继承"></a>接口继承</h2><ul>
+<li>接口的默认修饰为 <code>static</code>，注意是是接口的修饰，而不是接口内部的属性</li>
+<li>又因为接口内部的成员变量都是 <code>public static</code>，所以接口的嵌套就很理所当然</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// test</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InterfaceTest</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">/*static*/</span> <span class="class"><span class="keyword">interface</span> <span class="title">InterfaceDecorate</span> </span>&#123;&#125;   <span class="comment">// Modifier 'static' is redundant for inner interfaces</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Nesting interfaces. */</span></span><br><span class="line">    <span class="class"><span class="keyword">interface</span> <span class="title">Nesting1</span> </span>&#123;</span><br><span class="line">        <span class="class"><span class="keyword">interface</span> <span class="title">Nesting2</span> </span>&#123;</span><br><span class="line">            <span class="class"><span class="keyword">interface</span> <span class="title">Nesting3</span> </span>&#123;</span><br><span class="line">                <span class="comment">// ...</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="接口继承-1"><a href="#接口继承-1" class="headerlink" title="接口继承"></a>接口继承</h2><ul>
+<li>接口使用 <code>extends</code> 来继承另一个接口，一个接口可以继承多个接口</li>
+<li>一个类可以 <code>implements</code> 实现多个接口</li>
+</ul>
+<h2 id="default"><a href="#default" class="headerlink" title="default"></a>default</h2><p><strong><code>jdk 8</code></strong> 的新特性中，<code>default</code> 关键字可以在接口中中添加默认方法，<code>default</code> 关键字 <font color="orange"><strong>只能用于接口中</strong></font>，该方法为 <strong>非静态方法</strong>，只有通过实例对象才能调用</p>
+<p><strong>接口的 <code>default</code> 方法的性质测试</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// test</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DefaultMethod</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Inter # f */</span></span><br><span class="line">    <span class="class"><span class="keyword">interface</span> <span class="title">Inter1</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">default</span> <span class="keyword">void</span> <span class="title">f</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            log(<span class="string">"Inter1 # f"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* only extends Inter1 */</span></span><br><span class="line">    <span class="class"><span class="keyword">interface</span> <span class="title">Inter2</span> <span class="keyword">extends</span> <span class="title">Inter1</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* extends Inter1, and override Inter1 # f */</span></span><br><span class="line">    <span class="class"><span class="keyword">interface</span> <span class="title">Inter3</span> <span class="keyword">extends</span> <span class="title">Inter1</span> </span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">default</span> <span class="keyword">void</span> <span class="title">f</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            log(<span class="string">"Inter3 # f"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* extends Inter1, and add abstract method Inter4 # f */</span></span><br><span class="line">    <span class="class"><span class="keyword">interface</span> <span class="title">Inter4</span> <span class="keyword">extends</span> <span class="title">Inter1</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">()</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">defaultMethodTest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        log(<span class="string">"new Inter1() &#123;&#125;.f(): "</span>, <span class="keyword">false</span>);</span><br><span class="line">        <span class="keyword">new</span> Inter1() &#123;&#125;.f();</span><br><span class="line"></span><br><span class="line">        log(<span class="string">"new Inter2() &#123;&#125;.f(): "</span>, <span class="keyword">false</span>, -<span class="number">1</span>);</span><br><span class="line">        <span class="keyword">new</span> Inter2() &#123;&#125;.f();</span><br><span class="line"></span><br><span class="line">        log(<span class="string">"new Inter3() &#123;&#125;.f(): "</span>, <span class="keyword">false</span>, -<span class="number">1</span>);</span><br><span class="line">        <span class="keyword">new</span> Inter3() &#123;&#125;.f();</span><br><span class="line"></span><br><span class="line"><span class="comment">//!        new Inter4() &#123;&#125;.f();     // Inter4 # f 被覆盖成了抽象方法，必须被重写才能调用</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">/* Output:</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">            new Inter1() &#123;&#125;.f(): Inter1 # f</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">            new Inter2() &#123;&#125;.f(): Inter1 # f</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">            new Inter3() &#123;&#125;.f(): Inter3 # f</span></span><br><span class="line"><span class="comment">        */</span><span class="comment">//:~</span></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><code>default</code> 和普通类中的非静态方法基本一致</li>
+<li><code>default</code> 方法可以被接口的抽象方法所覆盖</li>
+</ol>
+<h1 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h1><ol>
+<li><strong>类级。</strong> 类的 <code>static</code> 变量</li>
+<li><strong>对象实例级。</strong> 成员变量</li>
+<li><strong>方法级。</strong> 方法内部</li>
+<li><strong>块级。</strong> 块内部的声明周期，比如 <code>if</code> 等大括号包围的区域</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// test</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Domain</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> classParam = <span class="number">1</span>;  <span class="comment">// 1. 类级 作用域</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> instance = <span class="number">2</span>;   <span class="comment">// 2. 对象实例级 作用域</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;   <span class="comment">// 3. 方法级的作用域</span></span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">3</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#123; <span class="comment">/* 4. 块级 的作用域，初始化块和静态块都属于这个级别，</span></span><br><span class="line"><span class="comment">            以及常见的 if for 等块状结构 */</span></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其实我感觉应该都是块级的作用域…<br>无非就是括号的范围造成的影响除了成员变量级之外，作用域以外都不能使用该作用域内部的变量</p>
+<h1 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h1><p>下面所有的所有的类中，除了匿名内部类意外，其他的所有的内部类，都和普通的类一样，可以寄继承其他的类/抽象类，实现接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// test</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InnerClass</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> value = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">InnerClass</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.value = value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 成员内部类 */</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">RememberInnerClass</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 初始化块中的内部类 */</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="class"><span class="keyword">class</span> <span class="title">InitializerBlockInnerClass</span> </span>&#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 静态块中的内部类 */</span></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        <span class="class"><span class="keyword">class</span> <span class="title">StaticBlockInnerClass</span> </span>&#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 局部内部类 */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="class"><span class="keyword">class</span> <span class="title">MethodInnerClass</span> </span>&#123;&#125;    <span class="comment">// 方法内部类</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">            <span class="class"><span class="keyword">class</span> <span class="title">ScopeInnerClass</span> </span>&#123;&#125;    <span class="comment">// 作用域内部类</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        InnerClass innerClass = <span class="keyword">new</span> InnerClass(<span class="number">10</span>) &#123;  <span class="comment">// 匿名内部类，带参构造器初始化</span></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">super</span>.toString();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="作用域内部类"><a href="#作用域内部类" class="headerlink" title="作用域内部类"></a>作用域内部类</h2><p>每个 <code>{ }</code> 中间的区域其实都是一个域，只不过通常将除了类的域以外的，都称为 <strong><code>局部</code></strong></p>
+<h3 id="成员内部类"><a href="#成员内部类" class="headerlink" title="成员内部类"></a>成员内部类</h3><pre><code>作为 类成员变量 中</code></pre><ul>
+<li>一个类或者抽象类声明在了另一个类的内部，此时他就相当于一个类的内部成员变量</li>
+<li>使用 <code>static</code> 关键字可以使它和外部类断开联系独立出来，通过 <code>new OutClass.InnerClass()</code> 就可以调用</li>
+</ul>
+<h2 id="局部内部类"><a href="#局部内部类" class="headerlink" title="局部内部类"></a>局部内部类</h2><pre><code>方法内部 或者 作用域(包括 方法内部，初始化块，静态代码块) 中</code></pre><h2 id="匿名内部类"><a href="#匿名内部类" class="headerlink" title="匿名内部类"></a>匿名内部类</h2><p>匿名内部类同样可以使用 <strong>带有参数的构造器</strong> 进行初始化</p>
 
       
     </div>
@@ -664,7 +746,7 @@
                     
                       
                     
-                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-count">11</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -749,7 +831,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概要"><span class="nav-number">1.</span> <span class="nav-text">概要</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#抽象类和抽象方法"><span class="nav-number">1.1.</span> <span class="nav-text">抽象类和抽象方法</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概要"><span class="nav-number">1.</span> <span class="nav-text">概要</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#抽象类和抽象方法"><span class="nav-number">2.</span> <span class="nav-text">抽象类和抽象方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#接口"><span class="nav-number">3.</span> <span class="nav-text">接口</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#接口继承"><span class="nav-number">3.1.</span> <span class="nav-text">接口继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接口继承-1"><span class="nav-number">3.2.</span> <span class="nav-text">接口继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#default"><span class="nav-number">3.3.</span> <span class="nav-text">default</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#作用域"><span class="nav-number">4.</span> <span class="nav-text">作用域</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内部类"><span class="nav-number">5.</span> <span class="nav-text">内部类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#作用域内部类"><span class="nav-number">5.1.</span> <span class="nav-text">作用域内部类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#成员内部类"><span class="nav-number">5.1.1.</span> <span class="nav-text">成员内部类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#局部内部类"><span class="nav-number">5.2.</span> <span class="nav-text">局部内部类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#匿名内部类"><span class="nav-number">5.3.</span> <span class="nav-text">匿名内部类</span></a></li></ol></li></ol></div>
             
 
           </div>
