@@ -104,7 +104,7 @@
 <meta property="og:site_name" content="chenyiAlone Blog">
 <meta property="og:description" content="概要             这一章的复习主要涵盖 类的初始化触发条件，类初始化的顺序，构造器的性质特点，成员初始化，以及 数组初始化。这里整理的都是个人觉得比较重要重新认真分析的东西，不一定全部为基础，如果有不准确的地方，还望大佬从评论区指出，感激不尽。文章中的所有的自定义的测试都在自己的 java-review 仓库中，本文对应的链接: 初始化">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-07-10T08:46:00.232Z">
+<meta property="og:updated_time" content="2019-08-04T03:14:05.496Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[java复习] 初始化">
 <meta name="twitter:description" content="概要             这一章的复习主要涵盖 类的初始化触发条件，类初始化的顺序，构造器的性质特点，成员初始化，以及 数组初始化。这里整理的都是个人觉得比较重要重新认真分析的东西，不一定全部为基础，如果有不准确的地方，还望大佬从评论区指出，感激不尽。文章中的所有的自定义的测试都在自己的 java-review 仓库中，本文对应的链接: 初始化">
@@ -425,7 +425,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-10 16:46:00" itemprop="dateModified" datetime="2019-07-10T16:46:00+08:00">2019-07-10</time>
+                <time title="修改时间：2019-08-04 11:14:05" itemprop="dateModified" datetime="2019-08-04T11:14:05+08:00">2019-08-04</time>
               
             
           </span>
@@ -552,7 +552,10 @@
 <li><p><code>JDK 1.7</code> 的动态语言支持时，如果一个<code>java.lang.invoke.MethodHandle</code> 实例最后的解析结果 <strong><code>REF_getStatic</code>、<code>REF_putStatic</code>、<code>REF_invokeStatic</code></strong> 的方法句柄，并且这个方法句柄所对应的类没有进行过初始化</p>
 </li>
 </ol>
-<h2 id="被动引用"><a href="#被动引用" class="headerlink" title="被动引用"></a>被动引用</h2><pre><code>被动引用不会触发类的初始化</code></pre><ol>
+<h2 id="被动引用"><a href="#被动引用" class="headerlink" title="被动引用"></a>被动引用</h2><blockquote>
+<p>被动引用不会触发类的初始化</p>
+</blockquote>
+<ol>
 <li><p>调用子类的中继承自父类的静态属性，只触发父类的类加载，不会触发子类的类加载，只触发拥有该属性的类型的初始化</p>
 </li>
 <li><p>测试通过创建指定类型的数组，不会触发类的初始化</p>
@@ -669,12 +672,18 @@
 <li>参数顺序</li>
 </ol>
 <h1 id="成员的初始化"><a href="#成员的初始化" class="headerlink" title="成员的初始化"></a>成员的初始化</h1><p><strong>类的成员变量</strong><br>    在对象空间分配的过程中，给类的所有的成员变量赋以默认的零值(这里同样请参看数据类型)，然后才开始进行类的初始化过程</p>
-<p><strong>局部变量</strong><br>    编译器不会对局部变量赋予默认值，因此在使用前 <strong>必须进行初始化</strong>，否则就会编译出错</p>
+<p><strong>局部变量</strong></p>
+<blockquote>
+<p>编译器不会对局部变量赋予默认值，因此在使用前 <strong>必须进行初始化</strong>，否则就会编译出错</p>
+</blockquote>
 <h2 id="指定初始化"><a href="#指定初始化" class="headerlink" title="指定初始化"></a>指定初始化</h2><p>初始化的顺序为自上而下的声明顺序，在开始非静态成员的初始化的时候，类对象其实已经分配完成，此时就可以调用的类的非静态方法</p>
 <p>###构造器初始化</p>
 <p>一般也经常自写一个 <code>init()</code> 初始化方法在构造器中进行调用，用来初始化指定的成员变量</p>
 <h3 id="静态数据的初始化"><a href="#静态数据的初始化" class="headerlink" title="静态数据的初始化"></a>静态数据的初始化</h3><p><code>static</code> 关键字只能用于域，<font color="red">不能用于局部变量</font></p>
-<h2 id="数组的初始化"><a href="#数组的初始化" class="headerlink" title="数组的初始化"></a>数组的初始化</h2><pre><code>数组类本身不是通过类加载器创建的，它是由 java 虚拟机直接创建的</code></pre><p>编译器不允许指定数组的大小 <font color="red"><del><code>int[12] arr;</code></del></font>，这就刚好印证了 <code>java</code> 是一种面向对象的语言，<code>arr</code> 实际上是指向一个数组对象的 <strong>引用</strong></p>
+<h2 id="数组的初始化"><a href="#数组的初始化" class="headerlink" title="数组的初始化"></a>数组的初始化</h2><blockquote>
+<p>数组类本身不是通过类加载器创建的，它是由 <strong><code>java</code> 虚拟机</strong> 直接创建的</p>
+</blockquote>
+<p>编译器不允许指定数组的大小 <font color="red"><del><code>int[12] arr;</code></del></font>，这就刚好印证了 <code>java</code> 是一种面向对象的语言，<code>arr</code> 实际上是指向一个数组对象的 <strong>引用</strong></p>
 <h3 id="基本数据类型和数组的关系"><a href="#基本数据类型和数组的关系" class="headerlink" title="基本数据类型和数组的关系"></a>基本数据类型和数组的关系</h3><ul>
 <li>类似于 <code>int[]</code> 的基本数据类型数组同样是一个对象，可以使用 <strong><code>new</code></strong> 关键字来声明</li>
 <li>单个的基本数据类型不能这样声明</li>
@@ -708,7 +717,10 @@
 <li><p>数组类的可见性与它的组件类型的可见性一致，如果组件类型不是引用类型，那数组类的可见性将默认为 <strong><code>public</code></strong></p>
 </li>
 </ol>
-<h3 id="可变参数类型"><a href="#可变参数类型" class="headerlink" title="可变参数类型"></a>可变参数类型</h3><pre><code>参编参数列表可以接受 一个数组类型 ，或者是 多个指定类型</code></pre><p><code>java</code> 的自动装箱机制对数组类型是不起作用的，使用可变参数列表，可以将传入的基本类型都进行自动装箱/拆箱操作</p>
+<h3 id="可变参数类型"><a href="#可变参数类型" class="headerlink" title="可变参数类型"></a>可变参数类型</h3><blockquote>
+<p>参编参数列表可以接受 <strong>一个数组类型</strong> ，或者是 <strong>多个指定类型</strong></p>
+</blockquote>
+<p><code>java</code> 的自动装箱机制对数组类型是不起作用的，使用可变参数列表，可以将传入的基本类型都进行自动装箱/拆箱操作</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// test</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Varargs</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">cout</span><span class="params">(Integer ... vars)</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Integer[] vars1 = <span class="keyword">new</span> Integer[]&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;   </span><br><span class="line">        <span class="keyword">int</span>[] vars2 = &#123;<span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, &#125;;   <span class="comment">// 可以以 , 结尾</span></span><br><span class="line">        </span><br><span class="line">        cout(vars1);</span><br><span class="line"><span class="comment">//!        cout(vars2); // 基本类型的数组不能进行自动装箱和拆箱</span></span><br><span class="line">        cout(<span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>);   <span class="comment">// 完成了自动装箱/拆箱，不能以 , 结尾</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="枚举类型"><a href="#枚举类型" class="headerlink" title="枚举类型"></a>枚举类型</h2><ol>
@@ -844,7 +856,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">12</span>
+                    <span class="site-state-item-count">13</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -885,7 +897,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">12</span>
+                      
+                    
+                    <span class="site-state-item-count">13</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
